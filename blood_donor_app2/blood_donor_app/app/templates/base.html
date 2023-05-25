@@ -1,121 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Blood Donor App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-      .dashboard {
-        margin: 30px;
-      }
-      .dashboard-items {
-        margin-top: 10px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-      }
-      .dashboard-item {
-        width: 100px;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-      }
-      .dashboard-item-icon {
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 25%;
-        padding: 20px;
-        font-size: 20px;
-        margin-bottom: 10px;
-      }
-      .dashboard-item-details h3 {
-        font-size: 10px;
-        margin: 0;
-      }
-      .admin-options {
-        display: flex;
-        justify-content: flex-end;
-        margin-right: 20px;
-      }
-      .admin-options a {
-        margin-left: 20px;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard {
+            margin: 30px;
+        }
+
+        .dashboard-items {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .dashboard-item {
+            width: 100px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .dashboard-item-icon {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 25%;
+            padding: 20px;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-item-details h3 {
+            font-size: 10px;
+            margin: 0;
+        }
+
+        .admin-options {
+            display: flex;
+            justify-content: flex-end;
+            margin-right: 20px;
+        }
+
+        .admin-options a {
+            margin-left: 20px;
+        }
     </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
         <ul class="navbar-nav">
-          {% if session.admin_id %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('admin.profile') }}">Admin Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('admin.password_change') }}">Change Password</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('admin.logout') }}">Logout</a>
-          </li>
-          {% endif %}
+            {% if session.admin_id %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.profile') }}">Admin Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.password_change') }}">Change Password</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin.logout') }}">Logout</a>
+                </li>
+            {% endif %}
         </ul>
-      </div>
-    </nav>
-
-    <div class="dashboard">
-      <h1>Dashboard</h1>
-
-      <div class="dashboard-items">
-        <div class="dashboard-item">
-          <a href="{{ url_for('main.donor_register') }}" class="btn btn-primary">
-            <div class="dashboard-item-icon">
-              <i class="fas fa-user-plus"></i>
-            </div>
-            <div class="dashboard-item-details">
-              <h3>Register Donor</h3>
-            </div>
-          </a>
-        </div>
-        <div class="dashboard-item">
-          <a href="{{ url_for('main.donor_search') }}" class="btn btn-primary">
-            <div class="dashboard-item-icon">
-              <i class="fas fa-search"></i>
-            </div>
-            <div class="dashboard-item-details">
-              <h3>Search Donor</h3>
-            </div>
-          </a>
-        </div>
-        <div class="dashboard-item">
-          <a href="{{ url_for('main.edit_donor') }}" class="btn btn-primary">
-            <div class="dashboard-item-icon">
-              <i class="fas fa-edit"></i>
-            </div>
-            <div class="dashboard-item-details">
-              <h3>Edit Donor</h3>
-            </div>
-          </a>
-        </div>
-        <div class="dashboard-item">
-          <a href="{{ url_for('main.delete_donor') }}" class="btn btn-primary">
-            <div class="dashboard-item-icon">
-              <i class="fas fa-trash"></i>
-            </div>
-            <div class="dashboard-item-details">
-              <h3>Delete Donor</h3>
-            </div>
-          </a>
-        </div>
-      </div>
     </div>
+</nav>
 
-    {% block content %}{% endblock %}
+<div class="dashboard">
+    <h1>Dashboard</h1>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-  </body>
+    <div class="dashboard-items">
+        <div class="dashboard-item">
+            <a href="{{ url_for('main.donor_register') }}" class="btn btn-primary">
+                <div class="dashboard-item-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="dashboard-item-details">
+                    <h3>Register Donor</h3>
+                </div>
+            </a>
+        </div>
+        <div class="dashboard-item">
+            <a href="{{ url_for('main.donor_search') }}" class="btn btn-primary">
+                <div class="dashboard-item-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="dashboard-item-details">
+                    <h3>Search Donor</h3>
+                </div>
+            </a>
+        </div>
+        <div class="dashboard-item">
+            <a href="{{ url_for('main.edit_donor') }}" class="btn btn-primary">
+                <div class="dashboard-item-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div class="dashboard-item-details">
+                    <h3>Edit Donor</h3>
+                </div>
+            </a>
+        </div>
+        <div class="dashboard-item">
+            <a href="{{ url_for('main.delete_donor') }}" class="btn btn-primary">
+                <div class="dashboard-item-icon">
+                    <i class="fas fa-trash"></i>
+                </div>
+                <div class="dashboard-item-details">
+                    <h3>Delete Donor</h3>
+                </div>
+            </a>
+        </div>
+        <div class="dashboard-item">
+            <a href="{{ url_for('main.blood_group') }}" class="btn btn-primary">
+                <div class="dashboard-item-icon">
+                    <i class="fas fa-file-medical"></i>
+                </div>
+                <div class="dashboard-item-details">
+                    <h3>Manage Blood Group</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
