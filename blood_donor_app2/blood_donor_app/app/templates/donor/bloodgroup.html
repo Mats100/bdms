@@ -4,6 +4,59 @@
 <html>
 <head>
     <title>Blood Group Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            margin-top: 10px;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .low-level {
+            color: red;
+            font-weight: bold;
+        }
+
+        .edit-link,
+        .delete-link {
+            margin-left: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Blood Group Management</h1>
@@ -29,8 +82,8 @@
             {% if blood_group.quantity <= LOW_BLOOD_GROUP_THRESHOLD %}
                 <span class="low-level">Low Level</span>
             {% endif %}
-            <a href="{{ url_for('main.edit_blood_group', blood_group_id=blood_group.id) }}">Edit</a>
-            <a href="{{ url_for('main.delete_blood_group', blood_group_id=blood_group.id) }}">Delete</a>
+            <a class="edit-link" href="{{ url_for('main.edit_blood_group', blood_group_id=blood_group.id) }}">Edit</a>
+            <a class="delete-link" href="{{ url_for('main.delete_blood_group', blood_group_id=blood_group.id) }}">Delete</a>
         </li>
         {% endfor %}
     </ul>
