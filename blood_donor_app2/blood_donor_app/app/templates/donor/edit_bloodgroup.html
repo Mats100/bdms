@@ -5,11 +5,15 @@
 </head>
 <body>
     <h1>Edit Blood Group</h1>
-    <form method="post" action="{{ url_for('main.edit_bloodgroup', blood_group_id=blood_group.id) }}">
+    <form method="post" action="{{ url_for('main.edit_blood_group', blood_group_id=blood_group_id) }}">
         {{ form.csrf_token }}
         <div>
             <label for="group">Blood Group:</label>
-            {{ form.group }}
+            {{ form.group() }}
+        </div>
+        <div>
+            <label for="quantity">Quantity:</label>
+            {{ form.quantity() }}
         </div>
         <div>
             <input type="submit" value="Update Blood Group">

@@ -97,7 +97,9 @@ def blood_group():
         blood_group = BloodGroup.query.filter_by(group=form.group.data).first()
 
         if blood_group:
-            flash('Blood group already exists.')
+            blood_group.quantity += form.quantity.data
+            db.session.commit()
+            flash('Blood group quantity updated successfully!')
         else:
             blood_group = BloodGroup(group=form.group.data, quantity=form.quantity.data)
             db.session.add(blood_group)
@@ -108,6 +110,7 @@ def blood_group():
 
     blood_groups = BloodGroup.query.all()
     return render_template('donor/bloodgroup.html', form=form, blood_groups=blood_groups)
+
 
 
 @bp.route('/bloodgroup/edit/<int:blood_group_id>', methods=['GET', 'POST'])
@@ -122,11 +125,13 @@ def edit_blood_group(blood_group_id):
 
     if form.validate_on_submit():
         blood_group.group = form.group.data
+        blood_group.quantity = form.quantity.data  # Update the quantity
         db.session.commit()
         flash('Blood group updated successfully!', 'success')
         return redirect(url_for('main.blood_group'))
 
-    return render_template('donor/edit_bloodgroup.html', form=form)
+    return render_template('donor/edit_bloodgroup.html', form=form, blood_group_id=blood_group.id)
+
 
 
 @bp.route('/bloodgroup/delete/<int:blood_group_id>', methods=['GET', 'POST'])
