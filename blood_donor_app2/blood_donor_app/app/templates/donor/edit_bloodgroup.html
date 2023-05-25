@@ -2,22 +2,48 @@
 <html>
 <head>
     <title>Edit Blood Group</title>
+    <!-- Add Bootstrap CDN link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Edit Blood Group</h1>
-    <form method="post" action="{{ url_for('main.edit_blood_group', blood_group_id=blood_group_id) }}">
-        {{ form.csrf_token }}
-        <div>
-            <label for="group">Blood Group:</label>
-            {{ form.group() }}
-        </div>
-        <div>
-            <label for="quantity">Quantity:</label>
-            {{ form.quantity() }}
-        </div>
-        <div>
-            <input type="submit" value="Update Blood Group">
-        </div>
-    </form>
+    <div class="container">
+        <h1>Edit Blood Group</h1>
+        <form method="post" action="{{ url_for('main.edit_blood_group', blood_group_id=blood_group_id) }}">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                <label for="group">Blood Group:</label>
+                {{ form.group() }}
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                {{ form.quantity() }}
+            </div>
+            <div>
+                <input class="btn btn-primary" type="submit" value="Update Blood Group">
+            </div>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap JS CDN link -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
