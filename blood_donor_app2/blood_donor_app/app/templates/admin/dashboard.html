@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="dashboard">
+    <h1 class="dashboard-title">Admin Dashboard</h1>
+    <p class="dashboard-info">Total Donors: {{ donor_count }}</p>
+  </div>
+{% endblock %}
+
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+  }
+
+  .dashboard {
+    max-width: 500px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .dashboard-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-info {
+    text-align: center;
+    font-size: 16px;
+  }
+</style>

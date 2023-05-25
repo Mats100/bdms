@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Blood Group</title>
+</head>
+<body>
+    <h1>Edit Blood Group</h1>
+    <form method="post" action="{{ url_for('main.edit_bloodgroup', blood_group_id=blood_group.id) }}">
+        {{ form.csrf_token }}
+        <div>
+            <label for="group">Blood Group:</label>
+            {{ form.group }}
+        </div>
+        <div>
+            <input type="submit" value="Update Blood Group">
+        </div>
+    </form>
+</body>
+</html>
