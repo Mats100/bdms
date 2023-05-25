@@ -4,6 +4,22 @@
   <div class="dashboard">
     <h1 class="dashboard-title">Admin Dashboard</h1>
     <p class="dashboard-info">Total Donors: {{ donor_count }}</p>
+    <table class="dashboard-table">
+      <thead>
+        <tr>
+          <th>Blood Group</th>
+          <th>Percentage</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for blood_group in blood_group_percentages %}
+        <tr>
+          <td>{{ blood_group.group }}</td>
+          <td>{{ blood_group.percentage }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}
 
@@ -34,5 +50,18 @@
   .dashboard-info {
     text-align: center;
     font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .dashboard-table th,
+  .dashboard-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
   }
 </style>

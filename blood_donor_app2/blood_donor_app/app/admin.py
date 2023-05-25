@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, session
 from app.forms import LoginForm, ProfileUpdateForm, PasswordChangeForm, RegisterForm
 from app.models import Admin
 from app import db
-from app.models import Donor
+from app.models import Donor,BloodGroup
 
 bp = Blueprint('admin', __name__)
 
@@ -10,8 +10,21 @@ bp = Blueprint('admin', __name__)
 @bp.route('/')
 def dashboard():
     donor_count = Donor.query.count()
+    blood_groups = BloodGroup.query.all()
+    total_count = sum(blood_group.quantity for blood_group in blood_groups)
 
-    return render_template('admin/dashboard.html', donor_count=donor_count)
+
+    blood_group_percentages = [
+        {
+            'group': blood_group.group,
+            'percentage': (blood_group.quantity / total_count) * 100 if total_count != 0 else 0
+        }
+        for blood_group in blood_groups
+    ]
+
+    return render_template('admin/dashboard.html', blood_group_percentages=blood_group_percentages, donor_count=donor_count)
+
+
 
 
 @bp.route('/donors')
