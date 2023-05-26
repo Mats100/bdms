@@ -18,8 +18,26 @@ class Donor(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(200), nullable=False)
+    contact_number = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    gender = db.Column(db.String(10), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.String(10), nullable=False)
+    weight = db.Column(db.Float, nullable=False)
     blood_type = db.Column(db.String(10), nullable=False)
-    # Add other donor fields as needed
+    pulse_rate = db.Column(db.Integer, nullable=False)
+    haemoglobin = db.Column(db.Float, nullable=False)
+    blood_pressure = db.Column(db.String(20), nullable=False)
+    temperature = db.Column(db.Float, nullable=False)
+    disease = db.Column(db.String(50), nullable=False)
+    allergies = db.Column(db.String(50), nullable=False)
+    blood_test = db.Column(db.String(10), nullable=False)
+    cardiac_problems = db.Column(db.String(10), nullable=False)
+    bleeding_disorders = db.Column(db.String(10), nullable=False)
+    medication = db.Column(db.String(50), nullable=False)
+
+
 
 class BloodGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)

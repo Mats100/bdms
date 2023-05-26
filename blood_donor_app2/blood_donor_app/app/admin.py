@@ -13,7 +13,6 @@ def dashboard():
     blood_groups = BloodGroup.query.all()
     total_count = sum(blood_group.quantity for blood_group in blood_groups)
 
-
     blood_group_percentages = [
         {
             'group': blood_group.group,
