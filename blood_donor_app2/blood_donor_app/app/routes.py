@@ -27,7 +27,7 @@ def donor_register():
         if blood_group and blood_group.quantity <= LOW_BLOOD_GROUP_THRESHOLD:
             flash(f'Alert: Low quantity of {blood_group.group} blood group!')
 
-        return redirect(url_for('main.donor_profile', donor_id=donor.id))
+        return redirect(url_for('admin.dashboard', donor_id=donor.id))
 
     return render_template('donor/register.html', form=form, LOW_BLOOD_GROUP_THRESHOLD=LOW_BLOOD_GROUP_THRESHOLD)
 
