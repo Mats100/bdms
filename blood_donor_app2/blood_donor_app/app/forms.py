@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, PasswordField, IntegerField
-from wtforms.validators import DataRequired, Length
+from wtforms import StringField, SelectField, SubmitField, PasswordField, IntegerField, BooleanField
+from wtforms.validators import DataRequired, Length, Email, NumberRange
 
 from app.models import Donor, Admin
 
@@ -70,3 +70,25 @@ class BloodGroupForm(FlaskForm):
     group = StringField('Blood Group', validators=[DataRequired()])
     quantity = IntegerField('Quantity', validators=[DataRequired()])
     submit = SubmitField('Save')
+
+class DonorDataForm(FlaskForm):
+
+        donor_id = IntegerField('Donor ID', validators=[DataRequired()])
+        name = StringField('Name', validators=[DataRequired()])
+        age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=18, max=65)])
+        contact_number = StringField('Contact Number', validators=[DataRequired(), Length(min=8, max=8)])
+        email = StringField('Email Address', validators=[Email()])
+        gender = SelectField('Gender', choices=[('male', 'Male'), ('female', 'Female')], validators=[DataRequired()])
+        weight = IntegerField('Body Weight', validators=[DataRequired()])
+        blood_type = SelectField('Blood Group', choices=[('A', 'A'), ('B', 'B'), ('AB', 'AB'), ('O', 'O')],
+                                  validators=[DataRequired()])
+        pulse_rate = IntegerField('Pulse Rate', validators=[DataRequired()])
+        haemoglobin = IntegerField('Haemoglobin', validators=[DataRequired()])
+        blood_pressure = StringField('Blood Pressure', validators=[DataRequired()])
+        temperature = StringField('Temperature', validators=[DataRequired()])
+        disease = BooleanField('Do you suffer from any disease?')
+        allergies = BooleanField('Do you have any allergies?')
+        positive_test = BooleanField('Have you ever had a positive blood test for HbsAg, Hcv, HIV?')
+        cardiac_problems = BooleanField('Do you have any cardiac problems?')
+        bleeding_disorders = BooleanField('Do you suffer from any bleeding disorders?')
+        medication = BooleanField('Do you take any medication?')
