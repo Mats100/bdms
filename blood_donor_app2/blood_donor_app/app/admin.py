@@ -7,7 +7,7 @@ from app.models import Donor,BloodGroup
 bp = Blueprint('admin', __name__)
 
 
-@bp.route('/')
+@bp.route('/dashboard')
 def dashboard():
     donor_count = Donor.query.count()
     blood_groups = BloodGroup.query.all()

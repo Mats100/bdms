@@ -22,7 +22,6 @@ def donor_register():
         db.session.commit()
         flash('Donor registered successfully!', 'success')
 
-        # Check blood group level
         blood_group = BloodGroup.query.filter_by(group=form.blood_type.data).first()
         if blood_group and blood_group.quantity <= LOW_BLOOD_GROUP_THRESHOLD:
             flash(f'Alert: Low quantity of {blood_group.group} blood group!')
@@ -32,7 +31,7 @@ def donor_register():
     return render_template('donor/register.html', form=form, LOW_BLOOD_GROUP_THRESHOLD=LOW_BLOOD_GROUP_THRESHOLD)
 
 
-@bp.route('/donor/search', methods=['GET', 'POST'])
+@bp.route('/donor_search', methods=['GET', 'POST'])
 def donor_search():
     form = DonorSearchForm()
     if form.validate_on_submit():
@@ -54,7 +53,7 @@ def donor_profile(donor_id):
     return render_template('donor/profile.html', donor=donor)
 
 
-@bp.route('/donor/edit', methods=['GET', 'POST'])
+@bp.route('/donor_edit', methods=['GET', 'POST'])
 def edit_donor():
     form = DonorUpdateForm()
 
@@ -72,7 +71,7 @@ def edit_donor():
     return render_template('donor/edit.html', form=form)
 
 
-@bp.route('/donor/delete', methods=['GET', 'POST'])
+@bp.route('/donor_delete', methods=['GET', 'POST'])
 def delete_donor():
     form = DonorDeleteForm()
     form.name.choices = [(donor.id, donor.name) for donor in Donor.query.all()]

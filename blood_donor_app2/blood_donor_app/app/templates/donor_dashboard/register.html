@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Donor Registration</h1>
+  <form method="POST" action="{{ url_for('donor.register') }}">
+    {{ form.csrf_token }}
+    <h2>Personal Details</h2>
+    <div>
+      <label for="donor_id">Donor ID:</label>
+      {{ form.donor_id }}
+    </div>
+    <div>
+      <label for="name">Name:</label>
+      {{ form.name }}
+    </div>
+    <div>
+      <label for="age">Age:</label>
+      {{ form.age }}
+    </div>
+    <div>
+      <label for="contact_number">Contact Number:</label>
+      {{ form.contact_number }}
+    </div>
+    <div>
+      <label for="email">Email Address:</label>
+      {{ form.email }}
+    </div>
+    <div>
+      <label for="gender">Gender:</label>
+      {{ form.gender }}
+    </div>
+    <div>
+      <label for="address">Address:</label>
+      {{ form.address }}
+    </div>
+
+    <h2>Health Details</h2>
+    <div>
+      <label for="body_weight">Body Weight:</label>
+      {{ form.body_weight }}
+    </div>
+    <div>
+      <label for="blood_group">Blood Group:</label>
+      {{ form.blood_group }}
+    </div>
+    <div>
+      <label for="pulse_rate">Pulse Rate:</label>
+      {{ form.pulse_rate }}
+    </div>
+    <div>
+      <label for="haemoglobin">Haemoglobin:</label>
+      {{ form.haemoglobin }}
+    </div>
+    <div>
+      <label for="blood_pressure">Blood Pressure:</label>
+      {{ form.blood_pressure }}
+    </div>
+    <div>
+      <label for="temperature">Temperature:</label>
+      {{ form.temperature }}
+    </div>
+
+    <h2>Health Security Check</h2>
+    <div>
+      <label for="disease">Do you suffer from any disease?</label>
+      {{ form.disease }}
+    </div>
+    <div>
+      <label for="allergies">Do you have any allergies?</label>
+      {{ form.allergies }}
+    </div>
+    <div>
+      <label for="positive_test">Have you ever had a positive blood test for HbsAg, Hcv, HIV?</label>
+      {{ form.positive_test }}
+    </div>
+    <div>
+      <label for="cardiac_problems">Do you have any cardiac problems?</label>
+      {{ form.cardiac_problems }}
+    </div>
+    <div>
+      <label for="bleeding_disorders">Do you suffer from any bleeding disorders?</label>
+      {{ form.bleeding_disorders }}
+    </div>
+    <div>
+      <label for="medication">Do you take any medication?</label>
+      {{ form.medication }}
+    </div>
+
+    <div>
+      <input type="submit" value="Register">
+    </div>
+  </form>
+{% endblock %}

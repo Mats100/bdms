@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form method="POST" action="{{ url_for('donor.login') }}">
+        {{ form.csrf_token }}
+
+        <div>
+            <label for="username">Username:</label>
+            {{ form.username }}
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            {{ form.password }}
+        </div>
+
+        <div>
+            <input type="submit" value="Login">
+        </div>
+    </form>
+</body>
+</html>
