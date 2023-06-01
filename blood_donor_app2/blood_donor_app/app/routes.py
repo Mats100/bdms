@@ -124,7 +124,7 @@ def edit_blood_group(blood_group_id):
 
     if form.validate_on_submit():
         blood_group.group = form.group.data
-        blood_group.quantity = form.quantity.data  # Update the quantity
+        blood_group.quantity = form.quantity.data
         db.session.commit()
         flash('Blood group updated successfully!', 'success')
         return redirect(url_for('main.blood_group'))
@@ -138,7 +138,7 @@ def delete_blood_group(blood_group_id):
     blood_group = BloodGroup.query.get(blood_group_id)
 
     if not blood_group:
-        flash('Blood group not found.', 'danger')
+        flash('Blood group not found.')
         return redirect(url_for('main.blood_group'))
 
     db.session.delete(blood_group)

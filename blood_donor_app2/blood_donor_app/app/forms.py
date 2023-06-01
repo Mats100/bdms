@@ -100,6 +100,3 @@ class DonorDataForm(FlaskForm):
     medication = RadioField('Do you take any medication?', choices=[(True, 'Yes'), (False, 'No')],
                             validators=[DataRequired()])
 
-class DonorLoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])

@@ -3,6 +3,7 @@ from app.forms import LoginForm, ProfileUpdateForm, PasswordChangeForm, Register
 from app.models import Admin
 from app import db
 from app.models import Donor,BloodGroup
+from werkzeug.security import generate_password_hash
 
 bp = Blueprint('admin', __name__)
 
@@ -34,23 +35,23 @@ def donor_list():
 
 
 @bp.route('/register', methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
+def register_admin():
+    admin_form = RegisterForm()
+    if admin_form.validate_on_submit():
         admin = Admin(
-            name=form.name.data,
-            age=form.age.data,
-            contact_number=form.contact_number.data,
-            address=form.address.data,
-            username=form.username.data,
-            password=form.password.data
+            name=admin_form.name.data,
+            age=admin_form.age.data,
+            contact_number=admin_form.contact_number.data,
+            address=admin_form.address.data,
+            username=admin_form.username.data,
+            password=generate_password_hash(admin_form.password.data)
         )
         db.session.add(admin)
         db.session.commit()
 
         return redirect(url_for('admin.login'))
 
-    return render_template('admin/register.html', form=form)
+    return render_template('admin/register.html',admin_form=admin_form)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():

@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>Donor Registration</h1>
-  <form method="POST" action="{{ url_for('donor.register') }}">
+  <form method="POST" action="{{ url_for('donor.register_donor') }}">
     {{ form.csrf_token }}
     <h2>Personal Details</h2>
     <div>

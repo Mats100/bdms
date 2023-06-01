@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session
-from app.forms import DonorDataForm, DonorLoginForm
+from app.forms import DonorDataForm, LoginForm
 from app import db
 from app.models import Donor
 from werkzeug.security import check_password_hash
@@ -48,7 +48,7 @@ def register():
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
-    form = DonorLoginForm()
+    form = LoginForm()
 
     if form.validate_on_submit():
 
