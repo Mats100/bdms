@@ -1,10 +1,16 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session
-from app.forms import DonorDataForm, LoginForm
+from app.forms import DonorDataForm, LoginForm, PasswordChangeForm
 from app import db
 from app.models import Donor
 from werkzeug.security import check_password_hash
 
 bp = Blueprint('donor', __name__)
+
+
+
+@bp.route('/dashboard')
+def donor_dashboard():
+    return render_template('donor_dashboard/dashboard.html')
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -16,6 +22,11 @@ def register():
             flash('Age must be between 18 and 65.', 'error')
             return render_template('donor_dashboard/register.html', form=form)
 
+        existing_donor = Donor.query.filter_by(donor_id=form.donor_id.data).first()
+        if existing_donor:
+            flash('Donor ID already exists. Please choose a different ID.', 'error')
+            return render_template('donor_dashboard/register.html', form=form)
+
         donor = Donor(
             donor_id=form.donor_id.data,
             name=form.name.data,
@@ -24,6 +35,8 @@ def register():
             email=form.email.data,
             gender=form.gender.data,
             address=form.address.data,
+            username=form.username.data,
+            password=form.password.data,
             body_weight=form.body_weight.data,
             blood_type=form.blood_type.data,
             pulse_rate=form.pulse_rate.data,
@@ -46,6 +59,7 @@ def register():
     return render_template('donor_dashboard/register.html', form=form)
 
 
+
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -64,3 +78,29 @@ def login():
             flash('Invalid username or password.', 'error')
 
     return render_template('donor_dashboard/login.html', form=form)
+
+
+@bp.route('/forget_password', methods=['GET', 'POST'])
+def forget_password():
+    form = PasswordChangeForm()
+
+    if form.validate_on_submit():
+        donor_id = session['donor_id']
+        donor = Donor.query.get(donor_id)
+
+        if donor.password == form.current_password.data:
+            donor.password = form.new_password.data
+            db.session.commit()
+
+            flash('Password changed successfully!', 'success')
+            return redirect(url_for('donor.login'))
+        else:
+            flash('Invalid current password!', 'error')
+
+    return render_template('donor_dashboard/forget_password.html', form=form)
+
+@bp.route('/logout')
+def logout():
+    session.pop('donor_id', None)
+    flash('Logged out successfully!', 'success')
+    return redirect(url_for('donor.login'))

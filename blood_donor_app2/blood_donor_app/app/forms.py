@@ -80,6 +80,9 @@ class DonorDataForm(FlaskForm):
     contact_number = StringField('Contact Number', validators=[DataRequired(), Length(min=8, max=8)])
     email = StringField('Email Address', validators=[Email()])
     gender = SelectField('Gender', choices=[('male', 'Male'), ('female', 'Female')], validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()])
+    password = StringField('Password', validators=[DataRequired()])
     weight = IntegerField('Body Weight', validators=[DataRequired()])
     blood_type = SelectField('Blood Group', choices=[('A', 'A'), ('B', 'B'), ('AB', 'AB'), ('O', 'O')],
                              validators=[DataRequired()])
@@ -99,4 +102,3 @@ class DonorDataForm(FlaskForm):
                                     choices=[(True, 'Yes'), (False, 'No')], validators=[DataRequired()])
     medication = RadioField('Do you take any medication?', choices=[(True, 'Yes'), (False, 'No')],
                             validators=[DataRequired()])
-

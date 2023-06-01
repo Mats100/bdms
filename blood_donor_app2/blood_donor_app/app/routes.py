@@ -8,7 +8,7 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def home():
-    return redirect(url_for('admin.login'))
+    return redirect(url_for('donor.login'))
 
 
 @bp.route('/donor_register', methods=['GET', 'POST'])
