@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, session
-from app.forms import DonorDataForm, LoginForm, PasswordChangeForm
+from flask import Blueprint, render_template, redirect, url_for, flash, session, request
+from app.forms import LoginForm, PasswordChangeForm
+from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm
 from app import db
 from app.models import Donor
 from werkzeug.security import check_password_hash
@@ -16,19 +17,15 @@ def donor_dashboard():
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = DonorDataForm()
-
+    # print(form)
+    # print(form.data)
+    # print(form.validate())
+    # print(form.errors)
     if form.validate_on_submit():
         if form.age.data < 18 or form.age.data > 65:
-            flash('Age must be between 18 and 65.', 'error')
+            flash('Age must be between 18 and 65.')
             return render_template('donor_dashboard/register.html', form=form)
-
-        existing_donor = Donor.query.filter_by(donor_id=form.donor_id.data).first()
-        if existing_donor:
-            flash('Donor ID already exists. Please choose a different ID.', 'error')
-            return render_template('donor_dashboard/register.html', form=form)
-
         donor = Donor(
-            donor_id=form.donor_id.data,
             name=form.name.data,
             age=form.age.data,
             contact_number=form.contact_number.data,
@@ -37,7 +34,7 @@ def register():
             address=form.address.data,
             username=form.username.data,
             password=form.password.data,
-            body_weight=form.body_weight.data,
+            weight=form.weight.data,
             blood_type=form.blood_type.data,
             pulse_rate=form.pulse_rate.data,
             haemoglobin=form.haemoglobin.data,
@@ -45,7 +42,7 @@ def register():
             temperature=form.temperature.data,
             disease=form.disease.data,
             allergies=form.allergies.data,
-            positive_test=form.positive_test.data,
+            blood_test=form.blood_test.data,
             cardiac_problems=form.cardiac_problems.data,
             bleeding_disorders=form.bleeding_disorders.data,
             medication=form.medication.data

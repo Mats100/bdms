@@ -74,7 +74,6 @@ class BloodGroupForm(FlaskForm):
 
 
 class DonorDataForm(FlaskForm):
-    donor_id = IntegerField('Donor ID', validators=[DataRequired()])
     name = StringField('Name', validators=[DataRequired()])
     age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=18, max=65)])
     contact_number = StringField('Contact Number', validators=[DataRequired(), Length(min=8, max=8)])
@@ -83,22 +82,18 @@ class DonorDataForm(FlaskForm):
     address = StringField('Address', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     password = StringField('Password', validators=[DataRequired()])
-    weight = IntegerField('Body Weight', validators=[DataRequired()])
-    blood_type = SelectField('Blood Group', choices=[('A', 'A'), ('B', 'B'), ('AB', 'AB'), ('O', 'O')],
+    weight = IntegerField('Weight', validators=[DataRequired()])
+    blood_type = SelectField('Blood Group', choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('O+', 'O+'),
+                                      ('O-', 'O-'), ('AB+', 'AB+'), ('AB-', 'AB-')],
                              validators=[DataRequired()])
     pulse_rate = IntegerField('Pulse Rate', validators=[DataRequired()])
     haemoglobin = IntegerField('Haemoglobin', validators=[DataRequired()])
     blood_pressure = StringField('Blood Pressure', validators=[DataRequired()])
     temperature = StringField('Temperature', validators=[DataRequired()])
-    disease = RadioField('Do you suffer from any disease?', choices=[(True, 'Yes'), (False, 'No')],
-                         validators=[DataRequired()])
-    allergies = RadioField('Do you have any allergies?', choices=[(True, 'Yes'), (False, 'No')],
-                           validators=[DataRequired()])
-    positive_test = RadioField('Have you ever had a positive blood test for HbsAg, Hcv, HIV?',
-                               choices=[(True, 'Yes'), (False, 'No')], validators=[DataRequired()])
-    cardiac_problems = RadioField('Do you have any cardiac problems?', choices=[(True, 'Yes'), (False, 'No')],
-                                  validators=[DataRequired()])
-    bleeding_disorders = RadioField('Do you suffer from any bleeding disorders?',
-                                    choices=[(True, 'Yes'), (False, 'No')], validators=[DataRequired()])
-    medication = RadioField('Do you take any medication?', choices=[(True, 'Yes'), (False, 'No')],
-                            validators=[DataRequired()])
+    disease = BooleanField('Do you suffer from any disease?')
+    allergies = BooleanField('Do you have any allergies?')
+    blood_test = BooleanField('Have you ever had a positive blood test for HbsAg, Hcv, HIV?')
+    cardiac_problems = BooleanField('Do you have any cardiac problems?')
+    bleeding_disorders = BooleanField('Do you suffer from any bleeding disorders?')
+    medication = BooleanField('Do you take any medication?')
+    submit = SubmitField('Register')

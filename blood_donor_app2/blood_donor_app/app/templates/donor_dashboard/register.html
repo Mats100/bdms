@@ -84,11 +84,6 @@
     {{ form.csrf_token }}
 
     <div class="form-group">
-        <label for="donor_id">Donor ID:</label>
-        <input type="text" id="donor_id" name="donor_id">
-    </div>
-
-    <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name">
     </div>
@@ -134,12 +129,12 @@
     <h2>Health Details</h2>
 
     <div class="form-group">
-        <label for="body_weight">Body Weight:</label>
-        <input type="text" id="body_weight" name="body_weight">
+        <label for="weight">Body Weight:</label>
+        <input type="text" id="weight" name="weight">
     </div>
     <div class="form-group">
-        <label for="blood_group">Blood Group:</label>
-        <select id="blood_group" name="blood_group">
+        <label for="blood_type">Blood Group:</label>
+        <select id="blood_type" name="blood_type">
             <option value="A+">A+</option>
             <option value="A-">A-</option>
             <option value="B+">B+</option>
@@ -176,48 +171,48 @@
     <div class="form-group">
         <label for="disease">Do you suffer from any disease?</label>
         <select id="disease" name="disease">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
         </select>
     </div>
 
     <div class="form-group">
         <label for="allergies">Do you have any allergies?</label>
         <select id="allergies" name="allergies">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="positive_test">Have you ever had a positive blood test for HbsAg, Hcv, HIV?</label>
-        <select id="positive_test" name="positive_test">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+        <label for="blood_test">Have you ever had a positive blood test for HbsAg, Hcv, HIV?</label>
+        <select id="blood_test" name="blood_test">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
         </select>
     </div>
 
     <div class="form-group">
         <label for="cardiac_problems">Do you have any cardiac problems?</label>
         <select id="cardiac_problems" name="cardiac_problems">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
         </select>
     </div>
 
     <div class="form-group">
         <label for="bleeding_disorders">Do you suffer from any bleeding disorders?</label>
         <select id="bleeding_disorders" name="bleeding_disorders">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
         </select>
     </div>
 
     <div class="form-group">
         <label for="medication">Do you take any medication?</label>
         <select id="medication" name="medication">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
         </select>
     </div>
 
