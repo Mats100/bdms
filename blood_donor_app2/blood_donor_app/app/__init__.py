@@ -19,6 +19,6 @@ def create_app():
     app.register_blueprint(admin_bp, url_prefix='/admin')
 
     from app.donor import bp as donor_bp
-    app.register_blueprint(donor_bp,url_prefix='/donor')
+    app.register_blueprint(donor_bp, url_prefix='/donor')
 
     return app

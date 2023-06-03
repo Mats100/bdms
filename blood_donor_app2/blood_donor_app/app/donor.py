@@ -3,7 +3,7 @@ from app.forms import LoginForm, PasswordChangeForm
 from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm
 from app import db
 from app.models import Donor
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 bp = Blueprint('donor', __name__)
 
@@ -33,7 +33,7 @@ def register():
             gender=form.gender.data,
             address=form.address.data,
             username=form.username.data,
-            password=form.password.data,
+            password=generate_password_hash(form.password.data),
             weight=form.weight.data,
             blood_type=form.blood_type.data,
             pulse_rate=form.pulse_rate.data,
@@ -72,7 +72,7 @@ def login():
             session['donor_id'] = donor.id
             return redirect(url_for('donor.dashboard'))
         else:
-            flash('Invalid username or password.', 'error')
+            flash('Invalid username or password.')
 
     return render_template('donor_dashboard/login.html', form=form)
 
