@@ -83,7 +83,8 @@ class DonorDataForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = StringField('Password', validators=[DataRequired()])
     weight = IntegerField('Weight', validators=[DataRequired()])
-    blood_type = SelectField('Blood Group', choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('O+', 'O+'),
+    blood_type = SelectField('Blood Group',
+                             choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('O+', 'O+'),
                                       ('O-', 'O-'), ('AB+', 'AB+'), ('AB-', 'AB-')],
                              validators=[DataRequired()])
     pulse_rate = IntegerField('Pulse Rate', validators=[DataRequired()])
@@ -97,3 +98,11 @@ class DonorDataForm(FlaskForm):
     bleeding_disorders = BooleanField('Do you suffer from any bleeding disorders?')
     medication = BooleanField('Do you take any medication?')
     submit = SubmitField('Register')
+
+
+class DonorProfileUpdateForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=18, max=65)])
+    contact_number = StringField('Contact Number', validators=[DataRequired(), Length(min=8, max=8)])
+    address = StringField('Address', validators=[DataRequired()])
+    submit = SubmitField('Update')

@@ -56,7 +56,7 @@ def register_admin():
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    print(form.errors)
+    # print(form.errors)
 
     if form.validate_on_submit():
         # print('here')
@@ -102,8 +102,9 @@ def password_change():
         admin_id = session['admin_id']
         admin = Admin.query.get(admin_id)
 
-        if admin.password == form.current_password.data:
-            admin.password = form.new_password.data
+        if check_password_hash(admin.password, form.current_password.data):
+            hashed_password = generate_password_hash(form.new_password.data)
+            admin.password = hashed_password
             db.session.commit()
 
             flash('Password changed successfully!', 'success')
@@ -112,7 +113,6 @@ def password_change():
             flash('Invalid current password!', 'error')
 
     return render_template('admin/password_change.html', form=form)
-
 
 @bp.route('/logout')
 def logout():

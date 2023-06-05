@@ -1,12 +1,11 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
-from app.forms import LoginForm, PasswordChangeForm
-from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm
+from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm, LoginForm, PasswordChangeForm, \
+    DonorProfileUpdateForm
 from app import db
 from app.models import Donor
 from werkzeug.security import check_password_hash, generate_password_hash
 
 bp = Blueprint('donor', __name__)
-
 
 
 @bp.route('/dashboard')
@@ -56,25 +55,47 @@ def register():
     return render_template('donor_dashboard/register.html', form=form)
 
 
-
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-
+    # print(form.errors)
     if form.validate_on_submit():
 
         username = form.username.data
         password = form.password.data
 
         donor = Donor.query.filter_by(username=username).first()
-
+        # print(donor.password)
+        # print(check_password_hash(donor.password, password))
         if donor and check_password_hash(donor.password, password):
             session['donor_id'] = donor.id
-            return redirect(url_for('donor.dashboard'))
+            return redirect(url_for('donor.donor_dashboard'))
         else:
             flash('Invalid username or password.')
 
     return render_template('donor_dashboard/login.html', form=form)
+
+
+@bp.route('/update', methods=['GET', 'POST'])
+def update_profile():
+    form = DonorProfileUpdateForm
+
+    if request.method == "POST":
+        donor_id = session['donor_id']
+        donor = Donor.query.get(donor_id)
+
+        donor.name = request.form['name']
+        donor.age = request.form['age']
+        donor.contact_number = request.form['contact_number']
+        donor.address = request.form['address']
+
+        db.session.commit()
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('donor.update_profile'))
+    return render_template('donor_dashboard/user_profile.html', form=form)
+
+
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 @bp.route('/forget_password', methods=['GET', 'POST'])
@@ -85,8 +106,9 @@ def forget_password():
         donor_id = session['donor_id']
         donor = Donor.query.get(donor_id)
 
-        if donor.password == form.current_password.data:
-            donor.password = form.new_password.data
+        if check_password_hash(donor.password, form.current_password.data):
+            hashed_password = generate_password_hash(form.new_password.data)
+            donor.password = hashed_password
             db.session.commit()
 
             flash('Password changed successfully!', 'success')
@@ -95,6 +117,7 @@ def forget_password():
             flash('Invalid current password!', 'error')
 
     return render_template('donor_dashboard/forget_password.html', form=form)
+
 
 @bp.route('/logout')
 def logout():
