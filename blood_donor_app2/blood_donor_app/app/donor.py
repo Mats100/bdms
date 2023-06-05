@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
 from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm, LoginForm, PasswordChangeForm, \
-    DonorProfileUpdateForm
+    DonorProfileUpdateForm, DonorSearchForm
 from app import db
 from app.models import Donor
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -78,24 +78,54 @@ def login():
 
 @bp.route('/update', methods=['GET', 'POST'])
 def update_profile():
-    form = DonorProfileUpdateForm
+    form = DonorProfileUpdateForm()
 
     if request.method == "POST":
         donor_id = session['donor_id']
         donor = Donor.query.get(donor_id)
 
-        donor.name = request.form['name']
-        donor.age = request.form['age']
-        donor.contact_number = request.form['contact_number']
-        donor.address = request.form['address']
+        donor.name = form.name.data
+        donor.age = form.age.data
+        donor.contact_number = form.contact_number.data
+        donor.address = form.address.data
 
         db.session.commit()
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('donor.update_profile'))
     return render_template('donor_dashboard/user_profile.html', form=form)
+@bp.route('/about', methods=['GET'])
+def about():
+    rules = [
+        "Donors must be at least 18 years old or at most 65 years old.",
+        "If a donor has the desire to 'give back', he/she can donate blood to the community every 3 months.",
+        "No donation is allowed if the donor has any disease or is not in proper health condition.",
+        "The blood in the blood stock expires after 35 days.",
+        "Pregnant individuals are not eligible to donate; they should wait 6 weeks after giving birth.",
+        "Donors should not give blood if they have AIDS or have ever had a positive HIV test.",
+        "If a donor has had hepatitis, they are not eligible to donate blood.",
+        "If the weight of the donor is between 45-50 kg, they can donate blood up to 350ml, and if it is greater than "
+        "50kg, they can give 450ml at a time."
+    ]
 
+    return render_template('donor_dashboard/about.html', rules=rules)
 
-from werkzeug.security import generate_password_hash, check_password_hash
+@bp.route('/search', methods=['GET', 'POST'])
+def search_donor():
+    search_form = DonorSearchForm()
+    results = []
+
+    if search_form.validate_on_submit():
+        name = search_form.name.data
+        blood_type = search_form.blood_type.data
+        if name and blood_type:
+            results = Donor.query.filter_by(name=name, blood_type=blood_type).all()
+        elif name:
+            results = Donor.query.filter_by(name=name).all()
+        elif blood_type:
+            results = Donor.query.filter_by(blood_type=blood_type).all()
+
+    return render_template('donor_dashboard/donor_search.html', form=search_form, results=results)
+
 
 
 @bp.route('/forget_password', methods=['GET', 'POST'])

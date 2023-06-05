@@ -44,6 +44,7 @@ class DonorRegistrationForm(FlaskForm):
 
 
 class DonorSearchForm(FlaskForm):
+    name = StringField('Name')
     blood_type = SelectField('Blood Type',
                              choices=[('', 'Any'), ('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('O+', 'O+'),
                                       ('O-', 'O-'), ('AB+', 'AB+'), ('AB-', 'AB-')])

@@ -3,25 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Donor Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding-top: 20px;
+        }
+
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            text-align: justify-all;
+        }
+
+        .navbar-nav .nav-link {
+            padding: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #4CAF50;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <ul class="navbar-nav">
-            {% if session.donor_id %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('donor.update_profile') }}">Logout</a>
-                </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('donor.forget_password') }}">Change Password</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('donor.logout') }}">Logout</a>
-                </li>
-            </ul>
-    </div>
-    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Donor Dashboard</a>
 
-    {% endif %}
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    {% if session.donor_id %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('donor.search_donor') }}">Donor Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('donor.about') }}">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('donor.update_profile') }}">Update Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('donor.forget_password') }}">Change Password</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('donor.logout') }}">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
 </body>
 </html>
