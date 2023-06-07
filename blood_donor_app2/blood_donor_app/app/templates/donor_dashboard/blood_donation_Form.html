@@ -89,7 +89,7 @@
 <body>
 <div class="container">
     <h1>Donate Blood</h1>
-    <form method="post" action="{{ url_for('donor.donate') }}" onsubmit="return validateLastDonateDate()">
+    <form method="post" action="{{ url_for('donor.donate_blood') }}" onsubmit="return validateLastDonateDate()">
         {{ form.csrf_token }}
         <div class="mb-3">
             <label for="name" class="form-label">Name:</label>

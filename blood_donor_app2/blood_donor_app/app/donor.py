@@ -146,8 +146,10 @@ def forget_password():
             flash('Invalid current password!', 'error')
 
     return render_template('donor_dashboard/forget_password.html', form=form)
-@bp.route('/donation_form', methods=['GET', 'POST'])
-
+# @bp.route('/donation_form', methods=['GET', 'POST'])
+# def donate_blood():
+#     form = BloodG
+#
 
 
 @bp.route('/logout')

@@ -30,7 +30,7 @@ class Donor(db.Model):
     occupation = db.Column(db.String, nullable=True)
     blood_type = db.Column(db.String(10), nullable=False)
     pulse_rate = db.Column(db.Integer, nullable=True)
-    haemoglobin = db.Column(db.Integer, nullable=True)
+    haemoglobin = db.Column(db.Float, nullable=True)
     blood_pressure = db.Column(db.String(20), nullable=True)
     temperature = db.Column(db.Integer, nullable=True)
     disease = db.Column(db.Boolean, nullable=True)

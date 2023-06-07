@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField, PasswordField, IntegerField, BooleanField, RadioField
-from wtforms.validators import DataRequired, Length, Email, NumberRange
+from wtforms.validators import DataRequired, InputRequired, Length, Email, NumberRange
 
 from app.models import Donor, Admin
 
@@ -82,7 +82,7 @@ class DonorDataForm(FlaskForm):
     gender = SelectField('Gender', choices=[('male', 'Male'), ('female', 'Female')], validators=[DataRequired()])
     address = StringField('Address', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
-    password = StringField('Password', validators=[DataRequired()])
+    password = StringField('Password', validators=[DataRequired(), Length(min=8)])
     weight = IntegerField('Weight', validators=[DataRequired()])
     blood_type = SelectField('Blood Group',
                              choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('O+', 'O+'),
