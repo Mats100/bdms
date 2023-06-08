@@ -5,12 +5,16 @@ from app import db
 from app.models import Donor
 from werkzeug.security import check_password_hash, generate_password_hash
 
+
 bp = Blueprint('donor', __name__)
 
 
 @bp.route('/dashboard')
 def donor_dashboard():
     return render_template('donor_dashboard/dashboard.html')
+
+
+
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -20,6 +24,10 @@ def register():
     # print(form.data)
     # print(form.validate())
     # print(form.errors)
+    existing_user = Donor.query.filter_by(username=form.username.data).first()
+    if existing_user:
+        flash('Username already exists. Please choose a different username.')
+        return render_template('donor_dashboard/register.html', form=form)
     if form.validate_on_submit():
         if form.age.data < 18 or form.age.data > 65:
             flash('Age must be between 18 and 65.')
@@ -74,7 +82,6 @@ def login():
             flash('Invalid username or password.')
 
     return render_template('donor_dashboard/login.html', form=form)
-
 
 @bp.route('/update', methods=['GET', 'POST'])
 def update_profile():
@@ -148,7 +155,7 @@ def forget_password():
     return render_template('donor_dashboard/forget_password.html', form=form)
 # @bp.route('/donation_form', methods=['GET', 'POST'])
 # def donate_blood():
-#     form = BloodG
+#     form = BloodGroupForm()
 #
 
 

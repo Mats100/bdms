@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,7 +39,7 @@
 <div class="container">
     <div class="row">
         <h1>Donor Registration</h1>
-        <form class="col-md-10 mx-auto p-5" method="POST" action="{{ url_for('donor.register') }}">
+        <form class="col-md-10 mx-auto p-5" method="POST" action="{{ url_for('donor.register') }}" onsubmit="return validateForm()">
             {{ form.csrf_token }}
 
             <div class="row g-3 mb-3">
@@ -199,7 +199,7 @@
     </div>
 </div>
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>
-<script type="text/javascript"
-        src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='donor_dashboard/assets/js/register.js') }}"></script>
 </body>
 </html>
