@@ -5,7 +5,7 @@ function validateForm() {
   let address = document.getElementById("address").value;
   let username = document.getElementById("username").value;
   let password = document.getElementById("password").value;
-  let phoneRegex = /^(?:\+|00)?230(\d{8})$/;
+
 
   if (name == ""){
     iziToast.error({
@@ -57,16 +57,6 @@ function validateForm() {
     });
     return false;
   }
-  if (!phoneRegex.test(contact_number))
-            {
-                iziToast.error(
-                    {
-                        title: 'Error',
-                        message: "Contact number must be a valid Mauritius phone number",
-                    }
-                );
-                return false;
-            }
   return true;
 }
 

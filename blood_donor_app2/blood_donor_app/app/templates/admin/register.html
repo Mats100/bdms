@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Registration Form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.min.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,80 +66,86 @@
     </style>
 </head>
 <body>
-<h1>Registration Form</h1>
-<form method="POST" action="{{ url_for('admin.register_admin') }}" onsubmit="return validateForm()">
-    {{ admin_form.csrf_token }}
-    <div>
-        <label for="name">Name:</label>
-        {{ admin_form.name }}
-        {% if  admin_form.name.errors %}
-            <ul>
-                {% for error in form.name.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-    <div>
-        <label for="age">Age:</label>
-        {{ admin_form.age }}
-        {% if admin_form.age.errors %}
-            <ul>
-                {% for error in admin_form.age.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-    <div>
-        <label for="contact_number">Contact Number:</label>
-        {{ admin_form.contact_number }}
-        {% if admin_form.contact_number.errors %}
-            <ul>
-                {% for error in admin_form.contact_number.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-    <div>
-        <label for="address">Address:</label>
-        {{ admin_form.address }}
-        {% if admin_form.address.errors %}
-            <ul>
-                {% for error in admin_form.address.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-    <div>
-        <label for="username">Username:</label>
-        {{ admin_form.username }}
-        {% if admin_form.username.errors %}
-            <ul>
-                {% for error in admin_form.username.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        {{ admin_form.password }}
-        {% if admin_form.password.errors %}
-            <ul>
-                {% for error in admin_form.password.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
+<div class="container">
+    <h1 class="text-center">Registration Form</h1>
+    <form method="POST" action="{{ url_for('admin.register_admin') }}" onsubmit="return validateForm()">
+        {{ admin_form.csrf_token }}
+        <div class="form-group">
+            <label for="name">Name:</label>
+            {{ admin_form.name(class="form-control") }}
+            {% if admin_form.name.errors %}
+                <ul class="text-danger">
+                    {% for error in admin_form.name.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="age">Age:</label>
+            {{ admin_form.age(class="form-control") }}
+            {% if admin_form.age.errors %}
+                <ul class="text-danger">
+                    {% for error in admin_form.age.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="contact_number">Contact Number:</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                </div>
+                {{ admin_form.contact_number(class="form-control") }}
+            </div>
+            {% if admin_form.contact_number.errors %}
+                <ul class="text-danger">
+                    {% for error in admin_form.contact_number.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="address">Address:</label>
+            {{ admin_form.address(class="form-control") }}
+            {% if admin_form.address.errors %}
+                <ul class="text-danger">
+                    {% for error in admin_form.address.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            {{ admin_form.username(class="form-control") }}
+            {% if admin_form.username.errors %}
+                <ul class="text-danger">
+                    {% for error in admin_form.username.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            {{ admin_form.password(class="form-control") }}
+            {% if admin_form.password.errors %}
+                <ul class="text-danger">
+                    {% for error in admin_form.password.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
 
-    <div>
-        <input type="submit" value="Submit">
-    </div>
-</form>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </div>
+    </form>
+</div>
 <script type="text/javascript" src="{{ url_for('static', filename='admin/assets/js/register.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>
 </body>

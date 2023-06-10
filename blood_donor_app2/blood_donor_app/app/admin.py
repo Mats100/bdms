@@ -117,5 +117,6 @@ def password_change():
 @bp.route('/logout')
 def logout():
     session.pop('admin_id', None)
+    session.clear()
     flash('Logged out successfully!', 'success')
     return redirect(url_for('admin.login'))

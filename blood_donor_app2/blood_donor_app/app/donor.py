@@ -162,5 +162,6 @@ def forget_password():
 @bp.route('/logout')
 def logout():
     session.pop('donor_id', None)
+    session.clear()
     flash('Logged out successfully!', 'success')
     return redirect(url_for('donor.login'))

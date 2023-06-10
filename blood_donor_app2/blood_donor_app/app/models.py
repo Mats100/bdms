@@ -44,5 +44,5 @@ class Donor(db.Model):
 class BloodGroup(db.Model):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
-    group = db.Column(db.String(10), unique=True, nullable=False)
+    group = db.Column(db.String(10), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=0)

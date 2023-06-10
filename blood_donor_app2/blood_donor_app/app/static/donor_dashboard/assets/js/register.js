@@ -13,7 +13,6 @@
     let haemoglobin = document.getElementById("haemoglobin").value;
     let bloodPressure = document.getElementById("blood_pressure").value;
     let temperature = document.getElementById("temperature").value;
-    const phoneRegex = /^(?:\+|00)?230(\d{8})$/;
 
         if (name === "" || age === "" || contactNumber === "" || email === "" || username === "" || password === "" || address === "" ||
     weight === "" || bloodType === "" || pulseRate === "" || haemoglobin === "" || bloodPressure === "" || temperature === "") {
@@ -32,16 +31,6 @@
     );
     return false;
 }
-        if (!phoneRegex.test(contactNumber))
-            {
-                iziToast.error(
-                    {
-                        title: 'Error',
-                        message: "Contact number must be a valid Mauritius phone number",
-                    }
-                );
-                return false;
-            }
     return true;
 
 }

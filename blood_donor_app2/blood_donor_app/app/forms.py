@@ -1,10 +1,23 @@
 import re
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, PasswordField, IntegerField, BooleanField, RadioField, \
+from wtforms import StringField, SelectField, SubmitField, PasswordField, IntegerField, BooleanField, \
     FloatField
-from wtforms.validators import DataRequired, InputRequired, Length, Email, NumberRange
+from wtforms.validators import DataRequired, Length, Email, NumberRange
 from wtforms import ValidationError
 from app.models import Donor, Admin
+
+
+class UniqueUsernameValidator:
+    def __init__(self, message=None):
+        if not message:
+            message = 'Username is already taken'
+        self.message = message
+
+    def __call__(self, form, field):
+        user = Admin.query.filter_by(username=field.data).first()
+        user_2 = Donor.query.filter_by(username=field.data).first()
+        if user and user_2:
+            raise ValidationError(self.message)
 
 
 class PhoneValidator:
@@ -14,7 +27,7 @@ class PhoneValidator:
         self.message = message
 
     def __call__(self, form, field):
-        phone_regex = r"^(?:\+|00)?230\d{8}$"
+        phone_regex = r"^(\+230)?\s?(\d{2})\s?\d{2}\s?\d{2}\s?\d{2}$"
         if not re.match(phone_regex, field.data):
             raise ValidationError(self.message)
 
@@ -24,7 +37,7 @@ class RegisterForm(FlaskForm):
     age = IntegerField('Age', validators=[DataRequired()])
     contact_number = StringField('Contact Number', validators=[DataRequired(), PhoneValidator()])
     address = StringField('Address', validators=[DataRequired()])
-    username = StringField('Username', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired(), UniqueUsernameValidator()])
     password = StringField('Password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
@@ -95,7 +108,7 @@ class DonorDataForm(FlaskForm):
     email = StringField('Email Address', validators=[Email()])
     gender = SelectField('Gender', choices=[('male', 'Male'), ('female', 'Female')], validators=[DataRequired()])
     address = StringField('Address', validators=[DataRequired()])
-    username = StringField('Username', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired(), UniqueUsernameValidator()])
     password = StringField('Password', validators=[DataRequired(), Length(min=8)])
     weight = IntegerField('Weight', validators=[DataRequired()])
     blood_type = SelectField('Blood Group',
@@ -118,6 +131,6 @@ class DonorDataForm(FlaskForm):
 class DonorProfileUpdateForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=18, max=65)])
-    contact_number = StringField('Contact Number', validators=[DataRequired(),PhoneValidator()])
+    contact_number = StringField('Contact Number', validators=[DataRequired(), PhoneValidator()])
     address = StringField('Address', validators=[DataRequired()])
     submit = SubmitField('Update')
