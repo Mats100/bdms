@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_login import LoginManager
 db = SQLAlchemy()
 
 
@@ -10,6 +10,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blood_donor.db'  # Replace with your database URL
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    login_manager = LoginManager()
 
     db.init_app(app)
 

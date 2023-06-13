@@ -1,13 +1,16 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session
 from app.forms import LoginForm, ProfileUpdateForm, PasswordChangeForm, RegisterForm
 from app import db
-from app.models import Donor,BloodGroup
+from app.models import Donor, BloodGroup
+from flask_login import login_required
+
 from blood_donor_app2.blood_donor_app.app.models import Admin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 bp = Blueprint('admin', __name__)
 
 
+@login_required
 @bp.route('/dashboard')
 def dashboard():
     donor_count = Donor.query.count()
@@ -22,9 +25,8 @@ def dashboard():
         for blood_group in blood_groups
     ]
 
-    return render_template('admin/dashboard.html', blood_group_percentages=blood_group_percentages, donor_count=donor_count)
-
-
+    return render_template('admin/dashboard.html', blood_group_percentages=blood_group_percentages,
+                           donor_count=donor_count)
 
 
 @bp.route('/donors')
@@ -51,7 +53,8 @@ def register_admin():
 
         return redirect(url_for('admin.login'))
 
-    return render_template('admin/register.html',admin_form=admin_form)
+    return render_template('admin/register.html', admin_form=admin_form)
+
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -84,13 +87,20 @@ def profile():
         admin = Admin.query.get(admin_id)
 
         admin.name = form.name.data
+        admin.age = form.age.data
         admin.contact_number = form.contact_number.data
         admin.address = form.address.data
-
         db.session.commit()
-
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('admin.profile'))
+
+    admin_id = session['admin_id']
+    admin = Admin.query.get(admin_id)
+    form.name.data = admin.name
+    form.age.data = admin.age
+    form.contact_number.data = admin.contact_number
+    form.address.data = admin.address
+
     return render_template('admin/profile.html', form=form)
 
 
@@ -113,6 +123,7 @@ def password_change():
             flash('Invalid current password!', 'error')
 
     return render_template('admin/password_change.html', form=form)
+
 
 @bp.route('/logout')
 def logout():

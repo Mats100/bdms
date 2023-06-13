@@ -2,10 +2,11 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from app.forms import DonorRegistrationForm, DonorSearchForm, DonorDeleteForm, DonorUpdateForm, BloodGroupForm
 from app.models import Donor, BloodGroup
 from app import db
+from flask_login import login_required
 
 bp = Blueprint('main', __name__)
 
-
+@login_required
 @bp.route('/')
 def home():
     return redirect(url_for('donor.login'))
@@ -17,7 +18,8 @@ def donor_register():
     LOW_BLOOD_GROUP_THRESHOLD = 5
 
     if form.validate_on_submit():
-        donor = Donor(name=form.name.data, blood_type=form.blood_type.data)
+        donor = Donor(name=form.name.data, age=form.age.data, contact_number=form.contact_number.data,
+                      blood_type=form.blood_type.data)
         db.session.add(donor)
         db.session.commit()
         flash('Donor registered successfully!', 'success')
@@ -61,6 +63,8 @@ def edit_donor():
         donor = Donor.query.filter_by(name=form.name.data).first()
         if donor:
             donor.name = form.name.data
+            donor.age = form.age.data
+            donor.contact_number = form.contact_number.data
             donor.blood_type = form.blood_type.data
             db.session.commit()
             flash('Donor updated successfully.', 'success')
@@ -69,7 +73,6 @@ def edit_donor():
             flash('Donor not found.', 'error')
 
     return render_template('donor/edit.html', form=form)
-
 
 @bp.route('/donor_delete', methods=['GET', 'POST'])
 def delete_donor():
@@ -111,7 +114,6 @@ def blood_group():
     return render_template('donor/bloodgroup.html', form=form, blood_groups=blood_groups)
 
 
-
 @bp.route('/bloodgroup/edit/<int:blood_group_id>', methods=['GET', 'POST'])
 def edit_blood_group(blood_group_id):
     blood_group = BloodGroup.query.get(blood_group_id)
@@ -130,7 +132,6 @@ def edit_blood_group(blood_group_id):
         return redirect(url_for('main.blood_group'))
 
     return render_template('donor/edit_bloodgroup.html', form=form, blood_group_id=blood_group.id)
-
 
 
 @bp.route('/bloodgroup/delete/<int:blood_group_id>', methods=['GET', 'POST'])

@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
+from flask_login import login_required
+
 from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm, LoginForm, PasswordChangeForm, \
     DonorProfileUpdateForm, DonorSearchForm
 from app import db
@@ -8,13 +10,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 bp = Blueprint('donor', __name__)
 
-
+@login_required
 @bp.route('/dashboard')
 def donor_dashboard():
     return render_template('donor_dashboard/dashboard.html')
-
-
-
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -87,7 +86,7 @@ def login():
 def update_profile():
     form = DonorProfileUpdateForm()
 
-    if request.method == "POST":
+    if form.validate_on_submit():
         donor_id = session['donor_id']
         donor = Donor.query.get(donor_id)
 
@@ -97,8 +96,17 @@ def update_profile():
         donor.address = form.address.data
 
         db.session.commit()
+
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('donor.update_profile'))
+
+    donor_id = session['donor_id']
+    donor = Donor.query.get(donor_id)
+    form.name.data = donor.name
+    form.age.data = donor.age
+    form.contact_number.data = donor.contact_number
+    form.address.data = donor.address
+
     return render_template('donor_dashboard/user_profile.html', form=form)
 
 

@@ -34,7 +34,7 @@
 
         input[type="text"],
         select {
-            width: 100%;
+            width: 80%;
             padding: 10px;
             font-size: 16px;
             margin-bottom: 10px;
@@ -69,7 +69,17 @@
                 {{ form.name }}
             </div>
             <div>
-                <label for="blood-type">Blood Type:</label>
+                <label for="age">Age:</label>
+                {{ form.age }}
+                <input type="text" id="age" name="age">
+            </div>
+            <div>
+                <label for="contact_number">Contact Number:</label>
+                {{ form.contact_number }}
+                  <input type="text" id="contact_number" name="contact_number">
+            </div>
+            <div>
+                <label for="blood_type">Blood Type:</label>
                 {{ form.blood_type }}
             </div>
             <div>
@@ -78,5 +88,5 @@
         </form>
     </div>
 </body>
-
 </html>
+

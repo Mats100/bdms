@@ -4,6 +4,7 @@
     <title>Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.min.css') }}">
     <style>
         body {
             padding: 20px;
@@ -58,11 +59,15 @@
 <body>
     <div class="container">
         <h1>Profile</h1>
-        <form method="post" action="{{ url_for('admin.profile') }}">
+        <form method="post" action="{{ url_for('admin.profile') }}" onsubmit=" return updateProfile()">
             {{ form.csrf_token }}
             <div class="mb-3">
                 <label for="name" class="form-label">Name:</label>
                 {{ form.name(class="form-control") }}
+            </div>
+             <div class="mb-3">
+                <label for="age" class="form-label">Age:</label>
+                {{ form.age(class="form-control") }}
             </div>
             <div class="mb-3">
                 <label for="contact_number" class="form-label">Contact Number:</label>
@@ -77,5 +82,7 @@
             </div>
         </form>
     </div>
+<script type="text/javascript" src="{{ url_for('static', filename='admin/assets/js/profile.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>
 </body>
 </html>
