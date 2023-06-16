@@ -9,12 +9,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 30vh;
+      height: 60vh;
     }
 
     .container {
+        max-height: 500px;
       max-width: 500px;
-      padding: 20px;
+      padding: 90px;
       background-color: #fff;
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -39,6 +40,7 @@
     <h1>Donor Profile</h1>
     <p><strong>Name:</strong> {{ donor.name }}</p>
       <p><strong>Age:</strong> {{ donor.age }}</p>
+       <p><strong>Contact No:</strong> {{ donor.contact_number }}</p>
     <p><strong>Blood Type:</strong> {{ donor.blood_type }}</p>
   </div>
 </body>

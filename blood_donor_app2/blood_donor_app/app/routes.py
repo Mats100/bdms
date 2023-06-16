@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from app.forms import DonorRegistrationForm, DonorSearchForm, DonorDeleteForm, DonorUpdateForm, BloodGroupForm
 from app.models import Donor, BloodGroup
 from app import db
@@ -53,9 +53,9 @@ def donor_search():
 def donor_profile(donor_id):
     donor = Donor.query.get(donor_id)
     return render_template('donor/profile.html', donor=donor)
-
-
 @bp.route('/donor_edit', methods=['GET', 'POST'])
+
+
 def edit_donor():
     form = DonorUpdateForm()
 
@@ -73,6 +73,7 @@ def edit_donor():
             flash('Donor not found.', 'error')
 
     return render_template('donor/edit.html', form=form)
+
 
 @bp.route('/donor_delete', methods=['GET', 'POST'])
 def delete_donor():

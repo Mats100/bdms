@@ -79,10 +79,6 @@
         <form method="post" action="{{ url_for('donor.search_donor') }}">
             {{ form.csrf_token }}
             <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                {{ form.name(class="form-control") }}
-            </div>
-            <div class="mb-3">
                 <label for="blood_type" class="form-label">Blood Type:</label>
                 {{ form.blood_type(class="form-control") }}
             </div>

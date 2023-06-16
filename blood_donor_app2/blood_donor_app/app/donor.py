@@ -1,28 +1,27 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, session, request
+from flask import Blueprint, render_template, redirect, url_for, flash, session
 from flask_login import login_required
-
 from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm, LoginForm, PasswordChangeForm, \
     DonorProfileUpdateForm, DonorSearchForm
 from app import db
 from app.models import Donor
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
 bp = Blueprint('donor', __name__)
+
 
 @login_required
 @bp.route('/dashboard')
 def donor_dashboard():
     return render_template('donor_dashboard/dashboard.html')
 
-
-@bp.route('/register', methods=['GET', 'POST'])
-def register():
-    form = DonorDataForm()
     # print(form)
     # print(form.data)
     # print(form.validate())
     # print(form.errors)
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    form = DonorDataForm()
+
     existing_user = Donor.query.filter_by(username=form.username.data).first()
     if existing_user:
         flash('Username already exists. Please choose a different username.')
@@ -82,14 +81,19 @@ def login():
 
     return render_template('donor_dashboard/login.html', form=form)
 
+
 @bp.route('/update', methods=['GET', 'POST'])
 def update_profile():
     form = DonorProfileUpdateForm()
 
-    if form.validate_on_submit():
-        donor_id = session['donor_id']
-        donor = Donor.query.get(donor_id)
+    if 'donor_id' not in session:
+        flash('Please log in to update your profile.', 'error')
+        return redirect(url_for('donor.login'))
 
+    donor_id = session['donor_id']
+    donor = Donor.query.get(donor_id)
+
+    if form.validate_on_submit():
         donor.name = form.name.data
         donor.age = form.age.data
         donor.contact_number = form.contact_number.data
@@ -100,8 +104,6 @@ def update_profile():
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('donor.update_profile'))
 
-    donor_id = session['donor_id']
-    donor = Donor.query.get(donor_id)
     form.name.data = donor.name
     form.age.data = donor.age
     form.contact_number.data = donor.contact_number
@@ -132,15 +134,11 @@ def search_donor():
     search_form = DonorSearchForm()
     results = []
     if search_form.validate_on_submit():
-        name = search_form.name.data
         blood_type = search_form.blood_type.data
-        if name and blood_type:
-            results = Donor.query.filter_by(name=name, blood_type=blood_type).all()
-        elif name:
-            results = Donor.query.filter_by(name=name).all()
-        elif blood_type:
+        if blood_type:
             results = Donor.query.filter_by(blood_type=blood_type).all()
     return render_template('donor_dashboard/donor_search.html', form=search_form, results=results)
+
 
 @bp.route('/forget_password', methods=['GET', 'POST'])
 def forget_password():
@@ -161,6 +159,8 @@ def forget_password():
             flash('Invalid current password!', 'error')
 
     return render_template('donor_dashboard/forget_password.html', form=form)
+
+
 # @bp.route('/donation_form', methods=['GET', 'POST'])
 # def donate_blood():
 #     form = BloodGroupForm()

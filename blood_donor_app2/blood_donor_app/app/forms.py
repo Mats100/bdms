@@ -73,22 +73,20 @@ class DonorRegistrationForm(FlaskForm):
 
 
 class DonorSearchForm(FlaskForm):
-    name = StringField('Name')
     blood_type = SelectField('Blood Type',
-                             choices=[('', 'Any'), ('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('O+', 'O+'),
+                             choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('O+', 'O+'),
                                       ('O-', 'O-'), ('AB+', 'AB+'), ('AB-', 'AB-')])
     submit = SubmitField('Search')
 
 
 class DonorUpdateForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    age = IntegerField('Age', validators=[DataRequired()])
+    age = IntegerField('Age', validators=[DataRequired(), NumberRange(min=18, max=65)])
     contact_number = StringField('Contact Number', validators=[DataRequired(), PhoneValidator()])
     blood_type = SelectField('Blood Type',
                              choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('O+', 'O+'),
                                       ('O-', 'O-'), ('AB+', 'AB+'), ('AB-', 'AB-')], validators=[DataRequired()])
     submit = SubmitField('Update')
-
 
 class DonorDeleteForm(FlaskForm):
     name = SelectField('Name', validators=[DataRequired()])

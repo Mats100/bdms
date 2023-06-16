@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, session
 from app.forms import LoginForm, ProfileUpdateForm, PasswordChangeForm, RegisterForm
 from app import db
 from app.models import Donor, BloodGroup
-from flask_login import login_required
+from flask_login import login_required, logout_user
 
 from blood_donor_app2.blood_donor_app.app.models import Admin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -129,5 +129,6 @@ def password_change():
 def logout():
     session.pop('admin_id', None)
     session.clear()
+    logout_user()
     flash('Logged out successfully!', 'success')
     return redirect(url_for('admin.login'))
