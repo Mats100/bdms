@@ -1,8 +1,8 @@
 function updateProfile() {
-    var form = document.getElementById('profileForm');
-    var formData = new FormData(form);
+    var RegisterForm = document.getElementById('RegisterForm');
+    var ProfileUpdateForm = new FormData(ProfileUpdateForm);
 
-    if (formData.get('name').trim() === '') {
+    if (ProfileUpdateForm.get('name').trim() === '') {
         iziToast.error({
             title: 'Validation Error',
             message: 'Please enter your name.',
@@ -13,7 +13,7 @@ function updateProfile() {
     }
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', form.action, true);
+    xhr.open('POST', ProfileUpdateForm.action, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200 && xhr.response.success) {
@@ -34,7 +34,7 @@ function updateProfile() {
             });
         }
     };
-    xhr.send(new URLSearchParams(formData).toString());
+    xhr.send(new URLSearchParams(ProfileUpdateForm).toString());
 
     return false;
 }

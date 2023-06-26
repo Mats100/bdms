@@ -6,6 +6,7 @@ from flask_login import login_required
 
 bp = Blueprint('main', __name__)
 
+
 @login_required
 @bp.route('/')
 def home():
@@ -53,27 +54,28 @@ def donor_search():
 def donor_profile(donor_id):
     donor = Donor.query.get(donor_id)
     return render_template('donor/profile.html', donor=donor)
+
+
 @bp.route('/donor_edit', methods=['GET', 'POST'])
-
-
 def edit_donor():
+    donors = Donor.query.all()
     form = DonorUpdateForm()
 
     if form.validate_on_submit():
-        donor = Donor.query.filter_by(name=form.name.data).first()
-        if donor:
-            donor.name = form.name.data
-            donor.age = form.age.data
-            donor.contact_number = form.contact_number.data
-            donor.blood_type = form.blood_type.data
+        selected_donor_id = request.form['Donor']
+        selected_donor = Donor.query.get(selected_donor_id)
+        if selected_donor:
+            selected_donor.name = form.name.data
+            selected_donor.age = form.age.data
+            selected_donor.contact_number = form.contact_number.data
+            selected_donor.blood_type = form.blood_type.data
             db.session.commit()
             flash('Donor updated successfully.', 'success')
-            return redirect(url_for('main.donor_profile', donor_id=donor.id))
+            return redirect(url_for('main.donor_profile', donor_id=selected_donor.id))
         else:
             flash('Donor not found.', 'error')
 
-    return render_template('donor/edit.html', form=form)
-
+    return render_template('donor/edit.html', form=form, donors=donors, selected_donor=None)
 
 @bp.route('/donor_delete', methods=['GET', 'POST'])
 def delete_donor():
@@ -94,6 +96,7 @@ def delete_donor():
 
 @bp.route('/bloodgroup', methods=['GET', 'POST'])
 def blood_group():
+
     form = BloodGroupForm()
 
     if form.validate_on_submit():

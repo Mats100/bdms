@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, session
 from app.forms import LoginForm, ProfileUpdateForm, PasswordChangeForm, RegisterForm
 from app import db
 from app.models import Donor, BloodGroup
-from flask_login import login_required, logout_user
+from flask_login import login_required
 
 from blood_donor_app2.blood_donor_app.app.models import Admin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -62,12 +62,10 @@ def login():
     # print(form.errors)
 
     if form.validate_on_submit():
-        # print('here')
         username = form.username.data
         password = form.password.data
 
         admin = Admin.query.filter_by(username=username).first()
-        # print(admin.password)
         if admin and check_password_hash(admin.password, password):
             session['admin_id'] = admin.id
             flash('Logged in successfully!', 'success')
@@ -129,6 +127,5 @@ def password_change():
 def logout():
     session.pop('admin_id', None)
     session.clear()
-    logout_user()
     flash('Logged out successfully!', 'success')
     return redirect(url_for('admin.login'))
