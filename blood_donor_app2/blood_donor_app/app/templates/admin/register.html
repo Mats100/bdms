@@ -69,10 +69,13 @@
 <div class="container">
     <h1 class="text-center">Registration Form</h1>
     <form method="POST" action="{{ url_for('admin.register_admin') }}" onsubmit="return validateForm()">
+
         {{ admin_form.csrf_token }}
         <div class="form-group">
             <label for="name">Name:</label>
-            {{ admin_form.name(class="form-control") }}
+            <label>
+                <input type="text" name="name" placeholder="Name">
+            </label>
             {% if admin_form.name.errors %}
                 <ul class="text-danger">
                     {% for error in admin_form.name.errors %}
@@ -83,7 +86,9 @@
         </div>
         <div class="form-group">
             <label for="age">Age:</label>
-            {{ admin_form.age(class="form-control") }}
+            <label>
+                <input type="number" id ="number"  placeholder="Age">
+            </label>
             {% if admin_form.age.errors %}
                 <ul class="text-danger">
                     {% for error in admin_form.age.errors %}
@@ -94,10 +99,12 @@
         </div>
         <div class="form-group">
             <label for="contact_number">Contact Number:</label>
+            <label for="number">
+                <input type="tel" id="tel" placeholder="Starting from +230">
+            </label>
             <div class="input-group">
                 <div class="input-group-prepend">
                 </div>
-                {{ admin_form.contact_number(class="form-control") }}
             </div>
             {% if admin_form.contact_number.errors %}
                 <ul class="text-danger">
@@ -109,7 +116,9 @@
         </div>
         <div class="form-group">
             <label for="address">Address:</label>
-            {{ admin_form.address(class="form-control") }}
+            <label for="Address">
+               <input type="text" id="Address" placeholder="Address">
+            </label>
             {% if admin_form.address.errors %}
                 <ul class="text-danger">
                     {% for error in admin_form.address.errors %}
@@ -120,7 +129,9 @@
         </div>
         <div class="form-group">
             <label for="username">Username:</label>
-            {{ admin_form.username(class="form-control") }}
+            <label for="Username">
+                <input type="text" id="Username" placeholder="Username">
+            </label>
             {% if admin_form.username.errors %}
                 <ul class="text-danger">
                     {% for error in admin_form.username.errors %}
@@ -131,7 +142,9 @@
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            {{ admin_form.password(class="form-control") }}
+            <label>
+                <input type="password" class="form-control" placeholder="Password">
+            </label>
             {% if admin_form.password.errors %}
                 <ul class="text-danger">
                     {% for error in admin_form.password.errors %}

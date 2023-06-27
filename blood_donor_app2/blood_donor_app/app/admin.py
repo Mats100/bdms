@@ -39,6 +39,7 @@ def donor_list():
 @bp.route('/register', methods=['GET', 'POST'])
 def register_admin():
     admin_form = RegisterForm()
+    errors = []
     if admin_form.validate_on_submit():
         admin = Admin(
             name=admin_form.name.data,
@@ -52,8 +53,9 @@ def register_admin():
         db.session.commit()
 
         return redirect(url_for('admin.login'))
+    errors.append("Form Validation Error")
 
-    return render_template('admin/register.html', admin_form=admin_form)
+    return render_template('admin/register.html', admin_form=admin_form, errors=errors)
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -76,6 +78,7 @@ def login():
     return render_template('admin/login.html', form=form)
 
 
+@login_required
 @bp.route('/profile', methods=['GET', 'POST'])
 def profile():
     form = ProfileUpdateForm()

@@ -62,26 +62,30 @@ def edit_donor():
     form = DonorUpdateForm()
 
     if form.validate_on_submit():
-        selected_donor_id = request.form['Donor']
-        selected_donor = Donor.query.get(selected_donor_id)
-        if selected_donor:
-            selected_donor.name = form.name.data
-            selected_donor.age = form.age.data
-            selected_donor.contact_number = form.contact_number.data
-            selected_donor.blood_type = form.blood_type.data
-            db.session.commit()
-            flash('Donor updated successfully.', 'success')
-            return redirect(url_for('main.donor_profile', donor_id=selected_donor.id))
+        selected_donor_id = request.form.get('donor')
+
+        if selected_donor_id:
+            selected_donor = Donor.query.get(selected_donor_id)
+            if selected_donor:
+                selected_donor.name = form.name.data
+                selected_donor.age = form.age.data
+                selected_donor.contact_number = form.contact_number.data
+                selected_donor.blood_type = form.blood_type.data
+                db.session.commit()
+                flash('Donor updated successfully.', 'success')
+                return redirect(url_for('main.donor_profile', donor_id=selected_donor.id))
+            else:
+                flash('Donor not found.', 'error')
         else:
-            flash('Donor not found.', 'error')
+            flash('Invalid donor selection.', 'error')
 
     return render_template('donor/edit.html', form=form, donors=donors, selected_donor=None)
 
-@bp.route('/donor_delete', methods=['GET', 'POST'])
+
+@bp.route('/donor/delete', methods=['GET', 'POST'])
 def delete_donor():
     form = DonorDeleteForm()
     form.name.choices = [(donor.id, donor.name) for donor in Donor.query.all()]
-
     if form.validate_on_submit():
         donor_id = form.name.data
         donor = Donor.query.get(donor_id)
@@ -96,7 +100,6 @@ def delete_donor():
 
 @bp.route('/bloodgroup', methods=['GET', 'POST'])
 def blood_group():
-
     form = BloodGroupForm()
 
     if form.validate_on_submit():
