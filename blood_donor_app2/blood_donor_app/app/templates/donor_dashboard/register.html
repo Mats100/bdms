@@ -3,17 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.min.css') }}">
     <title>Donor Registration</title>
 
     <style>
         * {
             padding: 0;
             margin: 0;
-
         }
 
         body {
@@ -25,13 +22,13 @@
         h1 {
             color: #333;
             margin-bottom: 20px;
-            align-content: center;
             text-align: center;
         }
 
         form {
             background-color: #fff;
             border: 1px solid #ccc;
+            padding: 20px;
         }
     </style>
 </head>
@@ -39,8 +36,7 @@
 <div class="container">
     <div class="row">
         <h1>Donor Registration</h1>
-        <form class="col-md-10 mx-auto p-5" method="POST" action="{{ url_for('donor.register') }}"
-              onsubmit="return validateForm()">
+        <form class="col-md-10 mx-auto p-5" method="POST" action="{{ url_for('donor.register') }}" onsubmit="return validateForm()">
             {{ form.csrf_token }}
 
             <div class="row g-3 mb-3">
@@ -58,149 +54,147 @@
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
                     <label for="contact_number">Contact Number:</label>
-                    <div class="input-group">
-                        <span class="input-group-text"></span>
-                        <input type="tel" class="form-control" id="contact_number" name="contact_number"
-                               pattern="(\+230)?\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2}"
-                               title="Please enter a valid contact number starting with +230" placeholder="Starting From +230" required>
-                    </div>
+                    <input type="tel" class="form-control" id="contact_number" name="contact_number" pattern="[0-9]{10}" placeholder="Contact Number" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="email">Email Address:</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <label for="email">Email Address:</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label for="gender">Gender:</label>
+                    <select class="form-control" id="gender" name="gender" required>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                </div>
             </div>
-    <div class="row g-3 mb-3">
-        <div class="col-md-4">
-            <label for="gender">Gender:</label>
-            <select class="form-control" id="gender" name="gender" required>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-            </select>
-        </div>
-        <div class="col-md-4">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
-        </div>
 
-        <div class="col-md-4">
-            <label for="password">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-        </div>
+            <div class="row g-3 mb-3">
+                <div class="col">
+                    <label for="address">Address:</label>
+                    <textarea class="form-control" id="address" name="address" placeholder="Address" required></textarea>
+                </div>
+            </div>
+
+            <h3>Health Details</h3>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label for="weight">Body Weight:</label>
+                    <input type="text" class="form-control" id="weight" name="weight" placeholder="Weight" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="blood_type">Blood Group:</label>
+                    <select class="form-control" id="blood_type" name="blood_type" required>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="pulse_rate">Pulse Rate:</label>
+                    <input type="text" class="form-control" id="pulse_rate" name="pulse_rate" placeholder="Pulse Rate" required>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label for="haemoglobin">Haemoglobin:</label>
+
+ <input type="number"  class="form-control"  id="haemoglobin" name="haemoglobin" step="0.1" min="0" max="20" placeholder="Enter haemoglobin level" required />
+                </div>
+
+                <div class="col-md-4">
+                    <label for="blood_pressure">Blood Pressure:</label>
+                    <input type="number" class="form-control" id="blood_pressure" name="blood_pressure" placeholder="Blood Pressure" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="temperature">Temperature:</label>
+                    <input type="number" class="form-control" id="temperature" name="temperature" placeholder="Temperature" required>
+                </div>
+            </div>
+
+            <h3>Health Security Check</h3>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="disease">Do you suffer from any disease?</label>
+                    <select class="form-control" id="disease" name="disease" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="allergies">Do you have any allergies?</label>
+                    <select class="form-control" id="allergies" name="allergies" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="blood_test">Have you ever had a positive blood test for HbsAg, Hcv, HIV?</label>
+                    <select class="form-control" id="blood_test" name="blood_test" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="cardiac_problems">Do you have any cardiac problems?</label>
+                    <select class="form-control" id="cardiac_problems" name="cardiac_problems" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="bleeding_disorders">Do you suffer from any bleeding disorders?</label>
+                    <select class="form-control" id="bleeding_disorders" name="bleeding_disorders" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="medication">Do you take any medication?</label>
+                    <select class="form-control" id="medication" name="medication" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <input type="submit" class="btn btn-success" value="Register">
+            </div>
+        </form>
     </div>
-
-    <div class="row g-3 mb-3">
-        <div class="col">
-            <label for="address">Address:</label>
-            <textarea class="form-control" id="address" name="address"  placeholder="Address" required></textarea>
-        </div>
-    </div>
-
-    <h3>Health Details</h3>
-
-    <div class="row g-3 mb-3">
-        <div class="col-md-4">
-            <label for="weight">Body Weight:</label>
-            <input type="text" class="form-control" id="weight" name="weight" placeholder="Weight" required>
-        </div>
-        <div class="col-md-4">
-            <label for="blood_type">Blood Group:</label>
-            <select class="form-control" id="blood_type" name="blood_type" required>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-            </select>
-        </div>
-
-        <div class="col-md-4">
-            <label for="pulse_rate">Pulse Rate:</label>
-            <input type="text" class="form-control" id="pulse_rate" name="pulse_rate" placeholder="Pulse Rate" required>
-        </div>
-    </div>
-    <div class="row g-3 mb-3">
-        <div class="col-md-4">
-            <label for="haemoglobin">Haemoglobin:</label>
-            <input type="number" class="form-control" id="haemoglobin" name="haemoglobin" placeholder="Haemoglobin Level" required>
-        </div>
-
-        <div class="col-md-4">
-            <label for="blood_pressure">Blood Pressure:</label>
-            <input type="number" class="form-control" id="blood_pressure" name="blood_pressure" placeholder="Blood Pressure Level" required>
-        </div>
-
-        <div class="col-md-4">
-            <label for="temperature">Temperature:</label>
-            <input type="number" class="form-control" id="temperature" name="temperature" placeholder="Temperature In  Fahrenheit" required>
-        </div>
-    </div>
-
-    <h3>Health Security Check</h3>
-    <div class="row g-3 mb-3">
-        <div class="col-md-6">
-            <label for="disease">Do you suffer from any disease?</label>
-            <select class="form-control" id="disease" name="disease">
-              <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <label for="allergies">Do you have any allergies?</label>
-            <select class="form-control" id="allergies" name="allergies">
-               <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row g-3 mb-3">
-        <div class="col-md-6">
-            <label for="blood_test">Have you ever had a positive blood test for HbsAg, Hcv, HIV?</label>
-            <select class="form-control" id="blood_test" name="blood_test">
-               <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <label for="cardiac_problems">Do you have any cardiac problems?</label>
-            <select class="form-control" id="cardiac_problems" name="cardiac_problems">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row g-3 mb-3">
-        <div class="col-md-6">
-            <label for="bleeding_disorders">Do you suffer from any bleeding disorders?</label>
-            <select class="form-control" id="bleeding_disorders" name="bleeding_disorders">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <label for="medication">Do you take any medication?</label>
-            <select class="form-control" id="medication" name="medication">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
-            </select>
-        </div>
-    </div>
-
-    <div>
-        <input type="submit" class="btn btn-success" value="Register">
-    </div>
-    </form>
-</div>
 </div>
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>
 <script type="text/javascript"

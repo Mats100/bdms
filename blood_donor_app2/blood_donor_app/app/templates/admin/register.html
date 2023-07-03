@@ -4,7 +4,8 @@
     <title>Registration Form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.min.css') }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='plugins/bootstrap/css/bootstrap.min.css') }}">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,17 +40,20 @@
             border-radius: 3px;
             border: 1px solid #ccc;
         }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+         input[type="number"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
         }
-
-        ul li {
-            color: red;
+         input[type="tel"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
         }
-
         input[type="submit"] {
             width: 100%;
             padding: 8px;
@@ -68,97 +72,62 @@
 <body>
 <div class="container">
     <h1 class="text-center">Registration Form</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
     <form method="POST" action="{{ url_for('admin.register_admin') }}" onsubmit="return validateForm()">
-
-        {{ admin_form.csrf_token }}
+        {{ form.csrf_token }}
         <div class="form-group">
             <label for="name">Name:</label>
             <label>
-                <input type="text" name="name" placeholder="Name">
+                <input type="text" name="name" placeholder="Name" required>
             </label>
-            {% if admin_form.name.errors %}
-                <ul class="text-danger">
-                    {% for error in admin_form.name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
         <div class="form-group">
             <label for="age">Age:</label>
             <label>
-                <input type="number" id ="number"  placeholder="Age">
+                <input type="number" id ="number"  placeholder="Age" required>
             </label>
-            {% if admin_form.age.errors %}
-                <ul class="text-danger">
-                    {% for error in admin_form.age.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
         <div class="form-group">
             <label for="contact_number">Contact Number:</label>
             <label for="number">
-                <input type="tel" id="tel" placeholder="Starting from +230">
+                <input type="tel" id="tel" placeholder="Contact Number" required>
             </label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                </div>
-            </div>
-            {% if admin_form.contact_number.errors %}
-                <ul class="text-danger">
-                    {% for error in admin_form.contact_number.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
         <div class="form-group">
             <label for="address">Address:</label>
             <label for="Address">
-               <input type="text" id="Address" placeholder="Address">
+               <input type="text" id="Address" placeholder="Address" required>
             </label>
-            {% if admin_form.address.errors %}
-                <ul class="text-danger">
-                    {% for error in admin_form.address.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
         <div class="form-group">
             <label for="username">Username:</label>
             <label for="Username">
-                <input type="text" id="Username" placeholder="Username">
+                <input type="text" id="Username" placeholder="Username" required>
             </label>
-            {% if admin_form.username.errors %}
-                <ul class="text-danger">
-                    {% for error in admin_form.username.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
             <label>
-                <input type="password" class="form-control" placeholder="Password">
+                <input type="password" class="form-control" placeholder="Password" required>
             </label>
-            {% if admin_form.password.errors %}
-                <ul class="text-danger">
-                    {% for error in admin_form.password.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
         </div>
-
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Submit">
         </div>
     </form>
 </div>
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='admin/assets/js/register.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>
 </body>

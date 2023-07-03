@@ -1,4 +1,4 @@
-/* CSS styles for the login form */
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
@@ -6,16 +6,17 @@ body {
 
 h1 {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 form {
-    max-width: 400px;
+    max-width: 500px;
+    max-height:500px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -39,7 +40,7 @@ input[type="password"] {
 }
 
 input[type="submit"] {
-    width: 100%;
+    width: 95%;
     padding: 12px;
     background-color: #4CAF50;
     color: white;
@@ -55,7 +56,6 @@ input[type="submit"]:hover {
 
 p {
     text-align: center;
-    margin-top: 20px;
 }
 
 a {

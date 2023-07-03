@@ -41,6 +41,24 @@
         border: 1px solid #ccc;
         border-radius: 4px;
     }
+     input[type="tel"],
+    select {
+        width: 80%;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+        input[type="number"],
+    select {
+        width: 80%;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
     input[type="submit"] {
         padding: 10px 20px;
@@ -65,15 +83,21 @@
             {{ form.csrf_token }}
             <div>
                 <label for="name">Name:</label>
-                {{ form.name }}
+                <label>
+                    <input type="text" name="name" placeholder="Name" required>
+                </label>
             </div>
             <div>
                 <label for="age">Age:</label>
-                {{ form.age }}
+                <label>
+                    <input type="number" name="age" placeholder="Age" required>
+                </label>
             </div>
             <div>
                 <label for="contact_number">Contact Number:</label>
-                {{ form.contact_number }}
+                <label>
+                    <input type="tel" name="contact_number" placeholder="Contact Number" required>
+                </label>
             </div>
             <div>
                 <label for="blood_type">Blood Type:</label>

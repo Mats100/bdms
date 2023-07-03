@@ -1,3 +1,4 @@
+import flask
 from flask import Blueprint, render_template, redirect, url_for, flash, session
 from flask_login import login_required
 from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm, LoginForm, PasswordChangeForm, \
@@ -14,10 +15,6 @@ bp = Blueprint('donor', __name__)
 def donor_dashboard():
     return render_template('donor_dashboard/dashboard.html')
 
-    # print(form)
-    # print(form.data)
-    # print(form.validate())
-    # print(form.errors)
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = DonorDataForm()
@@ -29,6 +26,10 @@ def register():
     if form.validate_on_submit():
         if form.age.data < 18 or form.age.data > 65:
             flash('Age must be between 18 and 65.')
+            return render_template('donor_dashboard/register.html', form=form)
+        if form.age.data or form.weight.data < 0 or form.pulse_rate.data < 0 or form.haemoglobin.data < 0 or form.blood_pressure.data < 0 or form.temperature.data < 0:
+            flash('Please enter positive values for  age, weight, pulse rate, haemoglobin, blood pressure, '
+                  'and temperature.')
             return render_template('donor_dashboard/register.html', form=form)
         donor = Donor(
             name=form.name.data,
@@ -57,27 +58,29 @@ def register():
 
         flash('Registration successful!', 'success')
         return redirect(url_for('donor.login'))
+    if flask.request.method == "GET":
+        session.pop('_flashes', None)
 
     return render_template('donor_dashboard/register.html', form=form)
+
 
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    # print(form.errors)
     if form.validate_on_submit():
 
         username = form.username.data
         password = form.password.data
 
         donor = Donor.query.filter_by(username=username).first()
-        # print(donor.password)
-        # print(check_password_hash(donor.password, password))
         if donor and check_password_hash(donor.password, password):
             session['donor_id'] = donor.id
             return redirect(url_for('donor.donor_dashboard'))
         else:
             flash('Invalid username or password.')
+    if flask.request.method == "GET":
+        session.pop('_flashes', None)
 
     return render_template('donor_dashboard/login.html', form=form)
 

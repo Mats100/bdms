@@ -15,4 +15,19 @@ function validateForm() {
   });
     return false;
   }
+   var errorFlashMessage = document.querySelector('.flash-message.error');
+    if (errorFlashMessage) {
+        iziToast.error({
+            title: 'Error',
+            message: errorFlashMessage.textContent,
+            position: 'topRight',
+            timeout: 5000,
+            progressBarColor: '#dc3545',
+            messageColor: '#ffffff',
+            backgroundColor: '#dc3545',
+            theme: 'dark',
+        });
+        return false;
+    }
+    return true;
 }

@@ -1,3 +1,4 @@
+import flask
 from flask import Blueprint, render_template, redirect, url_for, flash, session
 from app.forms import LoginForm, ProfileUpdateForm, PasswordChangeForm, RegisterForm
 from app import db
@@ -35,33 +36,36 @@ def donor_list():
 
     return render_template('admin/donor_list.html', donors=donors)
 
-
 @bp.route('/register', methods=['GET', 'POST'])
 def register_admin():
-    admin_form = RegisterForm()
-    errors = []
-    if admin_form.validate_on_submit():
+    form = RegisterForm()
+    existing_user = Admin.query.filter_by(username=form.username.data).first()
+    if existing_user:
+        flash('Username already exists. Please choose a different username.')
+        return render_template('admin/register.html', form=form)
+    if form.validate_on_submit():
+        if form.age.data < 0:
+            flash('Age cannot be negative.')
+            return render_template('admin/register.html', form=form)
         admin = Admin(
-            name=admin_form.name.data,
-            age=admin_form.age.data,
-            contact_number=admin_form.contact_number.data,
-            address=admin_form.address.data,
-            username=admin_form.username.data,
-            password=generate_password_hash(admin_form.password.data)
+            name=form.name.data,
+            age=form.age.data,
+            contact_number=form.contact_number.data,
+            address=form.address.data,
+            username=form.username.data,
+            password=generate_password_hash(form.password.data)
         )
         db.session.add(admin)
         db.session.commit()
 
         return redirect(url_for('admin.login'))
-    errors.append("Form Validation Error")
-
-    return render_template('admin/register.html', admin_form=admin_form, errors=errors)
-
+    if flask.request.method == "GET":
+        session.pop('_flashes', None)
+    return render_template('admin/register.html', form=form)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    # print(form.errors)
 
     if form.validate_on_submit():
         username = form.username.data
@@ -74,7 +78,8 @@ def login():
             return redirect(url_for('admin.dashboard'))
         else:
             flash('Invalid username or password!', 'error')
-
+    if flask.request.method == "GET":
+        session.pop('_flashes', None)
     return render_template('admin/login.html', form=form)
 
 
@@ -130,5 +135,4 @@ def password_change():
 def logout():
     session.pop('admin_id', None)
     session.clear()
-    flash('Logged out successfully!', 'success')
     return redirect(url_for('admin.login'))
