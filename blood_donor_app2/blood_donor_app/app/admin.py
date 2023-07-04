@@ -1,8 +1,8 @@
 import flask
 from flask import Blueprint, render_template, redirect, url_for, flash, session
-from app.forms import LoginForm, ProfileUpdateForm, PasswordChangeForm, RegisterForm
-from app import db
-from app.models import Donor, BloodGroup
+from blood_donor_app2.blood_donor_app.app.forms import LoginForm, ProfileUpdateForm, PasswordChangeForm, RegisterForm
+from blood_donor_app2.blood_donor_app.app import db
+from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup
 from flask_login import login_required
 
 from blood_donor_app2.blood_donor_app.app.models import Admin
@@ -25,7 +25,6 @@ def dashboard():
         }
         for blood_group in blood_groups
     ]
-
     return render_template('admin/dashboard.html', blood_group_percentages=blood_group_percentages,
                            donor_count=donor_count)
 
@@ -33,20 +32,19 @@ def dashboard():
 @bp.route('/donors')
 def donor_list():
     donors = Donor.query.all()
-
     return render_template('admin/donor_list.html', donors=donors)
+
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register_admin():
     form = RegisterForm()
+    # print(form.errors)
+    # print(form.data)
     existing_user = Admin.query.filter_by(username=form.username.data).first()
-    if existing_user:
+    if existing_user is not None:
         flash('Username already exists. Please choose a different username.')
         return render_template('admin/register.html', form=form)
     if form.validate_on_submit():
-        if form.age.data < 0:
-            flash('Age cannot be negative.')
-            return render_template('admin/register.html', form=form)
         admin = Admin(
             name=form.name.data,
             age=form.age.data,
@@ -57,11 +55,11 @@ def register_admin():
         )
         db.session.add(admin)
         db.session.commit()
-
         return redirect(url_for('admin.login'))
-    if flask.request.method == "GET":
+    if flask.request.method == "POST":
         session.pop('_flashes', None)
     return render_template('admin/register.html', form=form)
+
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -74,7 +72,6 @@ def login():
         admin = Admin.query.filter_by(username=username).first()
         if admin and check_password_hash(admin.password, password):
             session['admin_id'] = admin.id
-            flash('Logged in successfully!', 'success')
             return redirect(url_for('admin.dashboard'))
         else:
             flash('Invalid username or password!', 'error')

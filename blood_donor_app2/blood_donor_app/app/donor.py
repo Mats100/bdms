@@ -3,8 +3,8 @@ from flask import Blueprint, render_template, redirect, url_for, flash, session
 from flask_login import login_required
 from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm, LoginForm, PasswordChangeForm, \
     DonorProfileUpdateForm, DonorSearchForm
-from app import db
-from app.models import Donor
+from blood_donor_app2.blood_donor_app.app import db
+from blood_donor_app2.blood_donor_app.app.models import Donor
 from werkzeug.security import check_password_hash, generate_password_hash
 
 bp = Blueprint('donor', __name__)
@@ -15,21 +15,21 @@ bp = Blueprint('donor', __name__)
 def donor_dashboard():
     return render_template('donor_dashboard/dashboard.html')
 
+
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = DonorDataForm()
-
+    # print(form.errors)
     existing_user = Donor.query.filter_by(username=form.username.data).first()
-    if existing_user:
+    if existing_user is not None:
         flash('Username already exists. Please choose a different username.')
         return render_template('donor_dashboard/register.html', form=form)
     if form.validate_on_submit():
         if form.age.data < 18 or form.age.data > 65:
             flash('Age must be between 18 and 65.')
             return render_template('donor_dashboard/register.html', form=form)
-        if form.age.data or form.weight.data < 0 or form.pulse_rate.data < 0 or form.haemoglobin.data < 0 or form.blood_pressure.data < 0 or form.temperature.data < 0:
-            flash('Please enter positive values for  age, weight, pulse rate, haemoglobin, blood pressure, '
-                  'and temperature.')
+        if form.age.data < 0 or form.weight.data < 0 or form.pulse_rate.data < 0 or form.haemoglobin.data < 0 or form.blood_pressure.data < 0 or form.temperature.data < 0:
+            flash('Please enter positive values for age, weight, pulse rate, haemoglobin, blood pressure, and temperature.')
             return render_template('donor_dashboard/register.html', form=form)
         donor = Donor(
             name=form.name.data,
@@ -55,14 +55,11 @@ def register():
         )
         db.session.add(donor)
         db.session.commit()
-
         flash('Registration successful!', 'success')
         return redirect(url_for('donor.login'))
     if flask.request.method == "GET":
         session.pop('_flashes', None)
-
     return render_template('donor_dashboard/register.html', form=form)
-
 
 
 @bp.route('/login', methods=['GET', 'POST'])

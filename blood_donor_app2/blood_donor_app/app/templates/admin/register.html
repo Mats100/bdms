@@ -88,39 +88,27 @@
         {{ form.csrf_token }}
         <div class="form-group">
             <label for="name">Name:</label>
-            <label>
-                <input type="text" name="name" placeholder="Name" required>
-            </label>
+            <input type="text" id="name" name="name" placeholder="Name" required>
         </div>
         <div class="form-group">
             <label for="age">Age:</label>
-            <label>
-                <input type="number" id ="number"  placeholder="Age" required>
-            </label>
+            <input type="number" id="age" name="age" placeholder="Age" required>
         </div>
         <div class="form-group">
             <label for="contact_number">Contact Number:</label>
-            <label for="number">
-                <input type="tel" id="tel" placeholder="Contact Number" required>
-            </label>
+            <input type="tel" id="contact_number" name="contact_number" placeholder="Contact Number" required><br><small>Format:+23051234567</small>
         </div>
         <div class="form-group">
             <label for="address">Address:</label>
-            <label for="Address">
-               <input type="text" id="Address" placeholder="Address" required>
-            </label>
+            <input type="text" id="address" name="address" placeholder="Address" required>
         </div>
         <div class="form-group">
             <label for="username">Username:</label>
-            <label for="Username">
-                <input type="text" id="Username" placeholder="Username" required>
-            </label>
+            <input type="text" id="username" name="username" placeholder="Username" required>
         </div>
         <div class="form-group">
             <label for="password">Password:</label>
-            <label>
-                <input type="password" class="form-control" placeholder="Password" required>
-            </label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Submit">

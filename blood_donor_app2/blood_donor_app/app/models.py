@@ -20,7 +20,7 @@ class Donor(db.Model):
     name = db.Column(db.String(100), nullable=False)
     address = db.Column(db.String(200), nullable=True)
     contact_number = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String(100), nullable=True)
+    email = db.Column(db.String(100), unique=True, nullable=True)
     username = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(100), nullable=True)
     gender = db.Column(db.String(10), nullable=True)

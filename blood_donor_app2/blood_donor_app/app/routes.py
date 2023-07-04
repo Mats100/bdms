@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
-from app.forms import DonorRegistrationForm, DonorSearchForm, DonorDeleteForm, DonorUpdateForm, BloodGroupForm
-from app.models import Donor, BloodGroup
-from app import db
+from blood_donor_app2.blood_donor_app.app.forms import DonorRegistrationForm, DonorSearchForm, DonorDeleteForm, DonorUpdateForm, BloodGroupForm
+from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup
+from blood_donor_app2.blood_donor_app.app import db
 from flask_login import login_required
 
 bp = Blueprint('main', __name__)

@@ -36,6 +36,18 @@
 <div class="container">
     <div class="row">
         <h1>Donor Registration</h1>
+        {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
         <form class="col-md-10 mx-auto p-5" method="POST" action="{{ url_for('donor.register') }}" onsubmit="return validateForm()">
             {{ form.csrf_token }}
 
@@ -54,7 +66,7 @@
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
                     <label for="contact_number">Contact Number:</label>
-                    <input type="tel" class="form-control" id="contact_number" name="contact_number" pattern="[0-9]{10}" placeholder="Contact Number" required>
+                    <input type="tel" class="form-control" id="contact_number" name="contact_number" pattern="\+230\d{8}" placeholder="Contact Number" required><small>Format:+23051234567</small>
                 </div>
                 <div class="col-md-6">
                     <label for="email">Email Address:</label>
@@ -94,7 +106,7 @@
             <div class="row g-3 mb-3">
                 <div class="col-md-4">
                     <label for="weight">Body Weight:</label>
-                    <input type="text" class="form-control" id="weight" name="weight" placeholder="Weight" required>
+                    <input type="number" class="form-control" id="weight" name="weight" placeholder="Weight" required>
                 </div>
                 <div class="col-md-4">
                     <label for="blood_type">Blood Group:</label>
@@ -112,7 +124,7 @@
 
                 <div class="col-md-4">
                     <label for="pulse_rate">Pulse Rate:</label>
-                    <input type="text" class="form-control" id="pulse_rate" name="pulse_rate" placeholder="Pulse Rate" required>
+                    <input type="number" class="form-control" id="pulse_rate" name="pulse_rate" placeholder="Pulse Rate" required>
                 </div>
             </div>
 

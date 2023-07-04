@@ -4,20 +4,15 @@ from wtforms import StringField, SelectField, SubmitField, PasswordField, Intege
     FloatField
 from wtforms.validators import DataRequired, Length, Email, NumberRange
 from wtforms import ValidationError
-from app.models import Donor, Admin
+from blood_donor_app2.blood_donor_app.app.models import Donor, Admin
 
 
-class UniqueUsernameValidator:
-    def __init__(self, message=None):
-        if not message:
-            message = 'Username is already taken'
-        self.message = message
+def validate_username(self, username):
+    user = Admin.query.filter_by(username=username.data).first()
+    user_2 = Donor.query.filter_by(username=username.data).first()
+    if user or user_2:
+        raise ValidationError('That username is taken. Please choose another username.')
 
-    def __call__(self, form, field):
-        user = Admin.query.filter_by(username=field.data).first()
-        user_2 = Donor.query.filter_by(username=field.data).first()
-        if user and user_2:
-            raise ValidationError(self.message)
 
 
 class PhoneValidator:
@@ -37,7 +32,7 @@ class RegisterForm(FlaskForm):
     age = IntegerField('Age', validators=[DataRequired()])
     contact_number = StringField('Contact Number', validators=[DataRequired(), PhoneValidator()])
     address = StringField('Address', validators=[DataRequired()])
-    username = StringField('Username', validators=[DataRequired(), UniqueUsernameValidator()])
+    username = StringField('Username', validators=[DataRequired(), validate_username])
     password = StringField('Password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
@@ -88,6 +83,7 @@ class DonorUpdateForm(FlaskForm):
                                       ('O-', 'O-'), ('AB+', 'AB+'), ('AB-', 'AB-')], validators=[DataRequired()])
     submit = SubmitField('Update')
 
+
 class DonorDeleteForm(FlaskForm):
     name = SelectField('Name', validators=[DataRequired()])
     submit = SubmitField('Delete')
@@ -110,7 +106,7 @@ class DonorDataForm(FlaskForm):
     email = StringField('Email Address', validators=[Email()])
     gender = SelectField('Gender', choices=[('male', 'Male'), ('female', 'Female')], validators=[DataRequired()])
     address = StringField('Address', validators=[DataRequired()])
-    username = StringField('Username', validators=[DataRequired(), UniqueUsernameValidator()])
+    username = StringField('Username', validators=[DataRequired(), validate_username])
     password = StringField('Password', validators=[DataRequired(), Length(min=8)])
     weight = IntegerField('Weight', validators=[DataRequired()])
     blood_type = SelectField('Blood Group',
