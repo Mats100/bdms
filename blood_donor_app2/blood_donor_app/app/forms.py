@@ -7,14 +7,6 @@ from wtforms import ValidationError
 from blood_donor_app2.blood_donor_app.app.models import Donor, Admin
 
 
-def validate_username(self, username):
-    user = Admin.query.filter_by(username=username.data).first()
-    user_2 = Donor.query.filter_by(username=username.data).first()
-    if user or user_2:
-        raise ValidationError('That username is taken. Please choose another username.')
-
-
-
 class PhoneValidator:
     def __init__(self, message=None):
         if not message:
@@ -32,9 +24,14 @@ class RegisterForm(FlaskForm):
     age = IntegerField('Age', validators=[DataRequired()])
     contact_number = StringField('Contact Number', validators=[DataRequired(), PhoneValidator()])
     address = StringField('Address', validators=[DataRequired()])
-    username = StringField('Username', validators=[DataRequired(), validate_username])
+    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=10)])
     password = StringField('Password', validators=[DataRequired()])
     submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        user = Admin.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError(f'{username.data} is already taken please choose another one.')
 
 
 class LoginForm(FlaskForm):
@@ -106,7 +103,7 @@ class DonorDataForm(FlaskForm):
     email = StringField('Email Address', validators=[Email()])
     gender = SelectField('Gender', choices=[('male', 'Male'), ('female', 'Female')], validators=[DataRequired()])
     address = StringField('Address', validators=[DataRequired()])
-    username = StringField('Username', validators=[DataRequired(), validate_username])
+    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=10)])
     password = StringField('Password', validators=[DataRequired(), Length(min=8)])
     weight = IntegerField('Weight', validators=[DataRequired()])
     blood_type = SelectField('Blood Group',
@@ -115,8 +112,8 @@ class DonorDataForm(FlaskForm):
                              validators=[DataRequired()])
     pulse_rate = IntegerField('Pulse Rate', validators=[DataRequired()])
     haemoglobin = FloatField('Haemoglobin', validators=[DataRequired()])
-    blood_pressure = StringField('Blood Pressure', validators=[DataRequired()])
-    temperature = StringField('Temperature', validators=[DataRequired()])
+    blood_pressure = IntegerField('Blood Pressure', validators=[DataRequired()])
+    temperature = IntegerField('Temperature', validators=[DataRequired()])
     disease = BooleanField('Do you suffer from any disease?')
     allergies = BooleanField('Do you have any allergies?')
     blood_test = BooleanField('Have you ever had a positive blood test for HbsAg, Hcv, HIV?')
@@ -124,6 +121,17 @@ class DonorDataForm(FlaskForm):
     bleeding_disorders = BooleanField('Do you suffer from any bleeding disorders?')
     medication = BooleanField('Do you take any medication?')
     submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        user = Donor.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError(f'{username.data} is already taken please choose another one.')
+
+    def validate_email(self, email):
+        if email.data != Donor.email:
+            user = Donor.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError(f'{email.data} is already taken please choose another one.')
 
 
 class DonorProfileUpdateForm(FlaskForm):

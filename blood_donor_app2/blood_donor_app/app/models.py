@@ -1,4 +1,4 @@
-from app import db
+from blood_donor_app2.blood_donor_app.app.database import db
 
 
 class Admin(db.Model):
@@ -31,7 +31,7 @@ class Donor(db.Model):
     blood_type = db.Column(db.String(10), nullable=False)
     pulse_rate = db.Column(db.Integer, nullable=True)
     haemoglobin = db.Column(db.Float, nullable=True)
-    blood_pressure = db.Column(db.String(20), nullable=True)
+    blood_pressure = db.Column(db.Integer, nullable=True)
     temperature = db.Column(db.Integer, nullable=True)
     disease = db.Column(db.Boolean, nullable=True)
     allergies = db.Column(db.Boolean, nullable=True)
