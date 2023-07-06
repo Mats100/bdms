@@ -10,8 +10,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 bp = Blueprint('donor', __name__)
 
 
-@login_required
 @bp.route('/dashboard')
+@login_required
 def donor_dashboard():
     return render_template('donor_dashboard/dashboard.html')
 
@@ -95,8 +95,6 @@ def update_profile():
         donor.address = form.address.data
 
         db.session.commit()
-
-        flash('Profile updated successfully!', 'success')
         return redirect(url_for('donor.update_profile'))
 
     form.name.data = donor.name

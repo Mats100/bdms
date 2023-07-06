@@ -47,6 +47,7 @@
             transition: all 0.3s ease;
             border-radius: 5px;
             cursor: pointer;
+            text-decoration: none;
         }
 
         .dashboard-option:hover {

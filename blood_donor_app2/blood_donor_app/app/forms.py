@@ -25,7 +25,7 @@ class RegisterForm(FlaskForm):
     contact_number = StringField('Contact Number', validators=[DataRequired(), PhoneValidator()])
     address = StringField('Address', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired(), Length(min=3, max=10)])
-    password = StringField('Password', validators=[DataRequired()])
+    password = StringField('Password', validators=[DataRequired(), Length(min=8)])
     submit = SubmitField('Register')
 
     def validate_username(self, username):

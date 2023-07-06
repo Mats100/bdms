@@ -25,22 +25,23 @@
         </div>
     {% endif %}
 {% endwith %}
-<form method="POST" action="{{ url_for('donor.login') }}" onsubmit="return validateForm()">
+<form method="POST" action="{{ url_for('donor.login') }}" onsubmit="return validateForm()"class="mt-4">
     {{ form.hidden_tag() }}
-    <div>
+    <div class="mb-3">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" placeholder="Username">
     </div>
-    <div>
+    <div class="mb-3">
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" placeholder="Password">
     </div>
-    <div>
+    <div class="mb-3">
         <input type="submit" value="Login">
     </div>
-    <div><p>Register as Donor <a href="{{ url_for('donor.register') }}">Register here</a>.</p>
-        <p>Forgot your password? <a href="{{ url_for('donor.forget_password') }}">Reset password</a>.</p>
-    </div>
+     <div class="mb-3 text-center">
+        <p>Forgot your password? <a href="/donor/forget_password">Reset password</a>
+        </p><p><a href="/donor/register">Register as Donor</a></p>
+</div>
 </form>
 <script type="text/javascript" src="{{ url_for('static', filename='donor_dashboard/assets/js/login.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>

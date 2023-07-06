@@ -1,7 +1,13 @@
 from blood_donor_app2.blood_donor_app.app.database import db
+from flask_login import UserMixin, login_manager
 
 
-class Admin(db.Model):
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return Admin.query.get(int(user_id))
+
+
+class Admin(db.Model, UserMixin):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)

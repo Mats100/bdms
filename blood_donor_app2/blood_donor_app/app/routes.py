@@ -108,12 +108,10 @@ def blood_group():
         if blood_group:
             blood_group.quantity += form.quantity.data
             db.session.commit()
-            flash('Blood group quantity updated successfully!')
         else:
             blood_group = BloodGroup(group=form.group.data, quantity=form.quantity.data)
             db.session.add(blood_group)
             db.session.commit()
-            flash('Blood group added successfully!')
 
         return redirect(url_for('main.blood_group'))
 
@@ -135,7 +133,6 @@ def edit_blood_group(blood_group_id):
         blood_group.group = form.group.data
         blood_group.quantity = form.quantity.data
         db.session.commit()
-        flash('Blood group updated successfully!', 'success')
         return redirect(url_for('main.blood_group'))
 
     return render_template('donor/edit_bloodgroup.html', form=form, blood_group_id=blood_group.id)
@@ -151,6 +148,5 @@ def delete_blood_group(blood_group_id):
 
     db.session.delete(blood_group)
     db.session.commit()
-    flash('Blood group deleted successfully!', 'success')
 
     return redirect(url_for('main.blood_group'))

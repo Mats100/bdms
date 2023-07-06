@@ -7,53 +7,66 @@ function validateForm() {
   let password = document.getElementById("password").value;
 
 
-  if (name == ""){
+  if (name === ""){
     iziToast.error({
       title: 'Error',
       message: 'Name is required',
     });
-  return false
+  return false;
   }
-  if (age == ""){
+  if (age === ""){
     iziToast.error({
       title: 'Error',
       message: 'Age is required',
     });
-  return false
+  return false;
   }
-  if (contact_number == ""){
+  if (contact_number === ""){
     iziToast.error({
       title: 'Error',
       message: 'Contact Number is required',
     });
-  return false
+  return false;
   }
-   if (address == ""){
+   if (address === ""){
     iziToast.error({
       title: 'Error',
       message: 'address is required',
     });
-  return false
+  return false;
   }
 
 
-  if (username == "") {
+  if (username === "") {
     iziToast.error({
       title: 'Error',
       message: 'Username is required',
+      position:'topRight'
     });
     return false;
   }
-  if (password == "") {
+   if (username.length < 3 || username.length > 10){
+        iziToast.error(
+            {
+                title: 'Error',
+                message: 'Username must be between 3 and 10 characters',
+                position: 'topRight'
+            }
+        );
+        return false;
+    }
+  if (password === "") {
     iziToast.error({
       title: 'Error',
       message: 'Password is required',
+      position: 'topRight'
     });
     return false;
   }  if (password.length < 8) {
     iziToast.error({
       title: 'Error',
       message: 'Password must be at least 8 characters long.',
+      position:'topRight'
     });
     return false;
   }

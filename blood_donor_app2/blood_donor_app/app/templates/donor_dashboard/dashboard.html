@@ -6,85 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='donor_dashboard/assets/css/dashboard.css') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9 !important;
-            padding-top: 20px;
-        }
-
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-nav .nav-link {
-            padding: 10px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #4CAF50;
-        }
-
-        .container {
-            margin-top: 40px;
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-
-        .dashboard-options {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .dashboard-option {
-            width: 250px;
-            margin: 10px;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: all 0.3s ease;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .dashboard-option:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .dashboard-option-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-            color: #4CAF50;
-        }
-
-        .dashboard-option-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .dashboard-option-description {
-            font-size: 14px;
-            color: #777;
-        }
-    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    </nav>
 
     <div class="container">
         <h1>Welcome to the Donor Dashboard</h1>

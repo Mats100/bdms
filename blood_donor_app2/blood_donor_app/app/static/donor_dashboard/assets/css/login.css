@@ -34,7 +34,7 @@ label {
 
 input[type="text"],
 input[type="password"] {
-    width: 95%;
+    width: 100%;
     padding: 10px;
     border-radius: 3px;
     border: 1px solid #ccc;
@@ -42,7 +42,7 @@ input[type="password"] {
 }
 
 input[type="submit"] {
-    width: 95%;
+    width: 100%;
     padding: 12px;
     background-color: #4CAF50;
     color: white;
@@ -61,6 +61,6 @@ p {
 }
 
 a {
-    color: #4CAF50;
-    text-decoration: none;
+    color: #4CAF50 !important;
+    text-decoration: none !important;
 }
