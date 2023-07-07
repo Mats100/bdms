@@ -1,6 +1,6 @@
 import flask
 from flask import Blueprint, render_template, redirect, url_for, flash, session
-from flask_login import login_required
+from flask_login import login_required, logout_user, login_user, current_user
 from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm, LoginForm, PasswordChangeForm, \
     DonorProfileUpdateForm, DonorSearchForm
 from blood_donor_app2.blood_donor_app.app.database import db
@@ -13,7 +13,11 @@ bp = Blueprint('donor', __name__)
 @bp.route('/dashboard')
 @login_required
 def donor_dashboard():
-    return render_template('donor_dashboard/dashboard.html')
+    if current_user.is_authenticated:
+        return render_template('donor_dashboard/dashboard.html')
+    else:
+        flash('You need to log in to access the dashboard.')
+        return render_template('donor_dashboard/login.html')
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -68,6 +72,7 @@ def login():
         donor = Donor.query.filter_by(username=username).first()
         if donor and check_password_hash(donor.password, password):
             session['donor_id'] = donor.id
+            login_user(donor)
             return redirect(url_for('donor.donor_dashboard'))
         else:
             flash('Invalid username or password.')
@@ -78,6 +83,7 @@ def login():
 
 
 @bp.route('/update', methods=['GET', 'POST'])
+@login_required
 def update_profile():
     form = DonorProfileUpdateForm()
 
@@ -106,6 +112,7 @@ def update_profile():
 
 
 @bp.route('/about', methods=['GET'])
+@login_required
 def about():
     rules = [
         "Donors must be at least 18 years old or at most 65 years old.",
@@ -123,6 +130,7 @@ def about():
 
 
 @bp.route('/search', methods=['GET', 'POST'])
+@login_required
 def search_donor():
     search_form = DonorSearchForm()
     results = []
@@ -161,7 +169,9 @@ def forget_password():
 
 
 @bp.route('/logout')
+@login_required
 def logout():
+    logout_user()
     session.pop('donor_id', None)
     session.clear()
     flash('Logged out successfully!', 'success')

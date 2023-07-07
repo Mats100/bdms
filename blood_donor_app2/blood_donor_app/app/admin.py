@@ -1,18 +1,16 @@
 import flask
-from flask import Blueprint, render_template, redirect, url_for, flash, session
-from blood_donor_app2.blood_donor_app.app.forms import LoginForm, ProfileUpdateForm, PasswordChangeForm, RegisterForm
+from flask import Blueprint, render_template, redirect, url_for, flash, session, request
+from flask_login import login_required
+from blood_donor_app2.blood_donor_app.app.forms import RegisterForm, ProfileUpdateForm, PasswordChangeForm, LoginForm
 from blood_donor_app2.blood_donor_app.app import db
 from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup
-from flask_login import login_required, logout_user
-
 from blood_donor_app2.blood_donor_app.app.models import Admin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 bp = Blueprint('admin', __name__)
 
-
 @bp.route('/dashboard')
-@login_required
 def dashboard():
     donor_count = Donor.query.count()
     blood_groups = BloodGroup.query.all()
@@ -38,13 +36,10 @@ def donor_list():
 @bp.route('/register', methods=['GET', 'POST'])
 def register_admin():
     form = RegisterForm()
-    # print(form.errors)
-    # print(form.data)
-    existing_user = Admin.query.filter_by(username=form.username.data).first()
-    if existing_user is not None:
-        flash('Username already exists. Please choose a different username.')
-        return render_template('admin/register.html', form=form)
     if form.validate_on_submit():
+        if form.age.data < 0:
+            flash('Age cannot be negative.')
+            return render_template('admin/register.html', form=form)
         admin = Admin(
             name=form.name.data,
             age=form.age.data,
@@ -56,10 +51,10 @@ def register_admin():
         db.session.add(admin)
         db.session.commit()
         return redirect(url_for('admin.login'))
-    if flask.request.method == "POST":
+    if request.method == "POST":
         session.pop('_flashes', None)
-    return render_template('admin/register.html', form=form)
 
+    return render_template('admin/register.html', form=form)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -80,9 +75,7 @@ def login():
     return render_template('admin/login.html', form=form)
 
 
-
 @bp.route('/profile', methods=['GET', 'POST'])
-@login_required
 def profile():
     form = ProfileUpdateForm()
 
@@ -131,7 +124,6 @@ def password_change():
 
 @bp.route('/logout')
 def logout():
-    logout_user()
     session.pop('admin_id', None)
     session.clear()
     return redirect(url_for('admin.login'))

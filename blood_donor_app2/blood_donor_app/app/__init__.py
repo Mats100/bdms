@@ -1,9 +1,10 @@
-from flask import Flask
 from blood_donor_app2.blood_donor_app.app.database import db
+from blood_donor_app2.blood_donor_app.app.models import Donor
 from blood_donor_app2.blood_donor_app.app.routes import bp as main_bp
 from blood_donor_app2.blood_donor_app.app.admin import bp as admin_bp
 from blood_donor_app2.blood_donor_app.app.donor import bp as donor_bp
-
+from flask import Flask
+from flask_login import LoginManager
 
 
 def create_app():
@@ -14,6 +15,14 @@ def create_app():
     db.init_app(app)
     with app.app_context():
         db.create_all()
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'donor.login'
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return Donor.query.get(int(user_id))
 
     app.register_blueprint(main_bp)
 
