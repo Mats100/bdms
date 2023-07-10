@@ -64,3 +64,33 @@ a {
     color: #4CAF50 !important;
     text-decoration: none !important;
 }
+ .flash-messages {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .flash-message {
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .flash-message.success {
+    background-color: #C8E6C9;
+    color: #2E7D32;
+  }
+
+  .flash-message.info {
+    background-color: #BBDEFB;
+    color: #1565C0;
+  }
+
+  .flash-message.warning {
+    background-color: #FFF9C4;
+    color: #FFB300;
+  }
+
+  .flash-message.error {
+    background-color: #FFCDD2;
+    color: #C62828;
+  }

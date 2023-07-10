@@ -1,6 +1,6 @@
 import flask
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
-from flask_login import login_required
+from flask_login import login_required, logout_user, login_user
 from blood_donor_app2.blood_donor_app.app.forms import RegisterForm, ProfileUpdateForm, PasswordChangeForm, LoginForm
 from blood_donor_app2.blood_donor_app.app import db
 from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup
@@ -11,6 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 bp = Blueprint('admin', __name__)
 
 @bp.route('/dashboard')
+@login_required
 def dashboard():
     donor_count = Donor.query.count()
     blood_groups = BloodGroup.query.all()
@@ -67,6 +68,7 @@ def login():
         admin = Admin.query.filter_by(username=username).first()
         if admin and check_password_hash(admin.password, password):
             session['admin_id'] = admin.id
+            login_user(admin)
             return redirect(url_for('admin.dashboard'))
         else:
             flash('Invalid username or password!', 'error')
@@ -76,6 +78,7 @@ def login():
 
 
 @bp.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
     form = ProfileUpdateForm()
 
@@ -123,7 +126,9 @@ def password_change():
 
 
 @bp.route('/logout')
+@login_required
 def logout():
+    logout_user()
     session.pop('admin_id', None)
     session.clear()
     return redirect(url_for('admin.login'))

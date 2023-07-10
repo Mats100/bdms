@@ -1,18 +1,21 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
-from blood_donor_app2.blood_donor_app.app.forms import DonorRegistrationForm, DonorSearchForm, DonorDeleteForm, DonorUpdateForm, BloodGroupForm
+from flask_login import login_required
+
+from blood_donor_app2.blood_donor_app.app.forms import DonorRegistrationForm, DonorSearchForm, DonorDeleteForm, \
+    DonorUpdateForm, BloodGroupForm
 from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup
 from blood_donor_app2.blood_donor_app.app import db
 
-
 bp = Blueprint('main', __name__)
 
-@bp.route('/')
 
+@bp.route('/')
 def home():
     return redirect(url_for('donor.login'))
 
 
 @bp.route('/donor_register', methods=['GET', 'POST'])
+@login_required
 def donor_register():
     form = DonorRegistrationForm()
     LOW_BLOOD_GROUP_THRESHOLD = 5
@@ -34,6 +37,7 @@ def donor_register():
 
 
 @bp.route('/donor_search', methods=['GET', 'POST'])
+@login_required
 def donor_search():
     form = DonorSearchForm()
     if form.validate_on_submit():
@@ -50,15 +54,19 @@ def donor_search():
 
 
 @bp.route('/donor/<donor_id>')
+@login_required
 def donor_profile(donor_id):
     donor = Donor.query.get(donor_id)
     return render_template('donor/profile.html', donor=donor)
 
 
 @bp.route('/donor_edit', methods=['GET', 'POST'])
+@login_required
 def edit_donor():
     donors = Donor.query.all()
     form = DonorUpdateForm()
+    print(form.data)
+    print(form.errors)
 
     if form.validate_on_submit():
         selected_donor_id = request.form.get('donor')
@@ -70,9 +78,15 @@ def edit_donor():
                 selected_donor.age = form.age.data
                 selected_donor.contact_number = form.contact_number.data
                 selected_donor.blood_type = form.blood_type.data
-                db.session.commit()
-                flash('Donor updated successfully.', 'success')
-                return redirect(url_for('main.donor_profile', donor_id=selected_donor.id))
+
+                try:
+                    db.session.commit()
+                    flash('Donor updated successfully.', 'success')
+                    return redirect(url_for('main.donor_profile', donor_id=selected_donor.id))
+                except Exception as e:
+                    print(str(e))
+                    db.session.rollback()
+                    flash('Error updating donor.', 'error')
             else:
                 flash('Donor not found.', 'error')
         else:
@@ -82,6 +96,7 @@ def edit_donor():
 
 
 @bp.route('/donor/delete', methods=['GET', 'POST'])
+@login_required
 def delete_donor():
     form = DonorDeleteForm()
     form.name.choices = [(donor.id, donor.name) for donor in Donor.query.all()]
@@ -98,6 +113,7 @@ def delete_donor():
 
 
 @bp.route('/bloodgroup', methods=['GET', 'POST'])
+@login_required
 def blood_group():
     form = BloodGroupForm()
 
@@ -119,6 +135,7 @@ def blood_group():
 
 
 @bp.route('/bloodgroup/edit/<int:blood_group_id>', methods=['GET', 'POST'])
+@login_required
 def edit_blood_group(blood_group_id):
     blood_group = BloodGroup.query.get(blood_group_id)
 
@@ -138,6 +155,7 @@ def edit_blood_group(blood_group_id):
 
 
 @bp.route('/bloodgroup/delete/<int:blood_group_id>', methods=['GET', 'POST'])
+@login_required
 def delete_blood_group(blood_group_id):
     blood_group = BloodGroup.query.get(blood_group_id)
 

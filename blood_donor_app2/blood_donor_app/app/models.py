@@ -3,9 +3,7 @@ from flask_login import UserMixin
 from blood_donor_app2.blood_donor_app.app.database import db
 
 
-
-
-class Admin(db.Model):
+class Admin(db.Model,UserMixin):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)

@@ -1,5 +1,5 @@
 from blood_donor_app2.blood_donor_app.app.database import db
-from blood_donor_app2.blood_donor_app.app.models import Donor
+from blood_donor_app2.blood_donor_app.app.models import Donor, Admin
 from blood_donor_app2.blood_donor_app.app.routes import bp as main_bp
 from blood_donor_app2.blood_donor_app.app.admin import bp as admin_bp
 from blood_donor_app2.blood_donor_app.app.donor import bp as donor_bp
@@ -22,12 +22,18 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return Donor.query.get(int(user_id))
+        donor = Donor.query.get(int(user_id))
+        if donor:
+            return donor
+
+        admin = Admin.query.get(int(user_id))
+        if admin:
+            return admin
+
+        raise ValueError("User not found for the provided user_id.")
 
     app.register_blueprint(main_bp)
-
     app.register_blueprint(admin_bp, url_prefix='/admin')
-
     app.register_blueprint(donor_bp, url_prefix='/donor')
 
     return app
