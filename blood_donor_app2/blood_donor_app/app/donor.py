@@ -1,9 +1,10 @@
 import flask
-from flask import Blueprint, render_template, redirect, url_for, flash, session
+from flask import Blueprint, render_template, redirect, url_for, flash, session, request
 from flask_login import login_required, logout_user, login_user, current_user
 from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm, LoginForm, PasswordChangeForm, \
     DonorProfileUpdateForm, DonorSearchForm
 from blood_donor_app2.blood_donor_app.app.database import db
+from blood_donor_app2.blood_donor_app.app.mail import send_email
 from blood_donor_app2.blood_donor_app.app.models import Donor
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -140,7 +141,10 @@ def search_donor():
             results = Donor.query.filter_by(blood_type=blood_type).all()
     return render_template('donor_dashboard/donor_search.html', form=search_form, results=results)
 
-
+# @bp.route('/contact-us', methods=['GET', 'POST'])
+# def contact_us():
+#
+#     return render_template('donor_dashboard/contact_us.html')
 @bp.route('/forget_password', methods=['GET', 'POST'])
 def forget_password():
     form = PasswordChangeForm()

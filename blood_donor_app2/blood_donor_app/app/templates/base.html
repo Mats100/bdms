@@ -91,11 +91,12 @@
                 font-size: 10px;
             }
         }
+
         .dashboard-info {
             margin-left: 20px;
         }
-        .dashboard-table
-        {
+
+        .dashboard-table {
             border-collapse: collapse;
             margin: 10px 0 10px 20px;
             font-weight: bold;
@@ -120,15 +121,15 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 {% if session.admin_id %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('admin.profile') }}">Admin Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('admin.password_change') }}">Change Password</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('admin.logout') }}">Logout</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.profile') }}">Admin Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.password_change') }}">Change Password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin.logout') }}">Logout</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>
@@ -189,8 +190,7 @@
         </div>
     </div>
 </div>
-{% block content %}{% endblock %}
-<script type="text/javascript"
-        src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
+    {% block content %}{% endblock %}
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
 </body>
 </html>

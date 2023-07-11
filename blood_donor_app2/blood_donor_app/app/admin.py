@@ -3,12 +3,13 @@ from flask import Blueprint, render_template, redirect, url_for, flash, session,
 from flask_login import login_required, logout_user, login_user
 from blood_donor_app2.blood_donor_app.app.forms import RegisterForm, ProfileUpdateForm, PasswordChangeForm, LoginForm
 from blood_donor_app2.blood_donor_app.app import db
+from blood_donor_app2.blood_donor_app.app.mail import send_email
 from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup
 from blood_donor_app2.blood_donor_app.app.models import Admin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
 bp = Blueprint('admin', __name__)
+
 
 @bp.route('/dashboard')
 @login_required
@@ -45,17 +46,20 @@ def register_admin():
             name=form.name.data,
             age=form.age.data,
             contact_number=form.contact_number.data,
+            email=form.email.data,
             address=form.address.data,
             username=form.username.data,
             password=generate_password_hash(form.password.data)
         )
         db.session.add(admin)
+        send_email("Subject", "registered", "railpower15@gmail.com")
         db.session.commit()
         return redirect(url_for('admin.login'))
     if request.method == "POST":
         session.pop('_flashes', None)
 
     return render_template('admin/register.html', form=form)
+
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():

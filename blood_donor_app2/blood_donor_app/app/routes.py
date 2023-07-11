@@ -1,36 +1,34 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required
-
+from blood_donor_app2.blood_donor_app.app import db
 from blood_donor_app2.blood_donor_app.app.forms import DonorRegistrationForm, DonorSearchForm, DonorDeleteForm, \
     DonorUpdateForm, BloodGroupForm
 from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup
-from blood_donor_app2.blood_donor_app.app import db
+from blood_donor_app2.blood_donor_app.app.mail import send_email
 
 bp = Blueprint('main', __name__)
+
+LOW_BLOOD_GROUP_THRESHOLD = 5
 
 
 @bp.route('/')
 def home():
     return redirect(url_for('donor.login'))
 
+# @bp.route('/campaign',methods=['GET', 'POST'])
+# @login_required
+# def campaign():
 
 @bp.route('/donor_register', methods=['GET', 'POST'])
 @login_required
 def donor_register():
     form = DonorRegistrationForm()
-    LOW_BLOOD_GROUP_THRESHOLD = 5
-
     if form.validate_on_submit():
         donor = Donor(name=form.name.data, age=form.age.data, contact_number=form.contact_number.data,
                       blood_type=form.blood_type.data)
         db.session.add(donor)
         db.session.commit()
         flash('Donor registered successfully!', 'success')
-
-        blood_group = BloodGroup.query.filter_by(group=form.blood_type.data).first()
-        if blood_group and blood_group.quantity <= LOW_BLOOD_GROUP_THRESHOLD:
-            flash(f'Alert: Low quantity of {blood_group.group} blood group!')
-
         return redirect(url_for('admin.dashboard', donor_id=donor.id))
 
     return render_template('donor/register.html', form=form, LOW_BLOOD_GROUP_THRESHOLD=LOW_BLOOD_GROUP_THRESHOLD)
@@ -128,6 +126,11 @@ def blood_group():
             db.session.add(blood_group)
             db.session.commit()
 
+        blood_group = BloodGroup.query.filter_by(group=form.group.data).first()
+        if blood_group and blood_group.quantity <= LOW_BLOOD_GROUP_THRESHOLD:
+            donor_emails = Donor.query.with_entities(Donor.email).filter(Donor.email != None).all()
+            donor_emails = [email for email, in donor_emails]
+            send_email("Subject", f"Alert: Low quantity of {blood_group.group}blood group", donor_emails)
         return redirect(url_for('main.blood_group'))
 
     blood_groups = BloodGroup.query.all()
@@ -149,6 +152,10 @@ def edit_blood_group(blood_group_id):
         blood_group.group = form.group.data
         blood_group.quantity = form.quantity.data
         db.session.commit()
+        if blood_group and blood_group.quantity <= LOW_BLOOD_GROUP_THRESHOLD:
+            donor_emails = Donor.query.with_entities(Donor.email).filter(Donor.email != None).all()
+            donor_emails = [email for email, in donor_emails]
+            send_email("Subject", f"Alert: Low quantity of {blood_group.group}blood group", donor_emails)
         return redirect(url_for('main.blood_group'))
 
     return render_template('donor/edit_bloodgroup.html', form=form, blood_group_id=blood_group.id)

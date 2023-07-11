@@ -24,6 +24,7 @@ class RegisterForm(FlaskForm):
     age = IntegerField('Age', validators=[DataRequired()])
     contact_number = StringField('Contact Number', validators=[DataRequired(), PhoneValidator()])
     address = StringField('Address', validators=[DataRequired()])
+    email = StringField('Email Address', validators=[Email()])
     username = StringField('Username', validators=[DataRequired(), Length(min=3, max=10)])
     password = StringField('Password', validators=[DataRequired(), Length(min=8)])
     submit = SubmitField('Register')
@@ -58,6 +59,7 @@ class DonorRegistrationForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     age = IntegerField('Age', validators=[DataRequired()])
     contact_number = StringField('Contact Number', validators=[DataRequired(), PhoneValidator()])
+    email = StringField('Email', validators=[Email()])
     blood_type = SelectField('Blood Type',
                              choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'), ('O+', 'O+'),
                                       ('O-', 'O-'), ('AB+', 'AB+'), ('AB-', 'AB-')], validators=[DataRequired()])
@@ -140,3 +142,7 @@ class DonorProfileUpdateForm(FlaskForm):
     contact_number = StringField('Contact Number', validators=[DataRequired(), PhoneValidator()])
     address = StringField('Address', validators=[DataRequired()])
     submit = SubmitField('Update')
+
+
+# class CreateCompaign(FlaskForm):
+#

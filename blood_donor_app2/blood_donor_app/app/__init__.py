@@ -1,3 +1,4 @@
+from flask_socketio import SocketIO
 from blood_donor_app2.blood_donor_app.app.database import db
 from blood_donor_app2.blood_donor_app.app.models import Donor, Admin
 from blood_donor_app2.blood_donor_app.app.routes import bp as main_bp
@@ -12,6 +13,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'your-secret-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blood_donor.db'  # Replace with your database URL
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
     db.init_app(app)
     with app.app_context():
         db.create_all()
@@ -30,10 +32,17 @@ def create_app():
         if admin:
             return admin
 
-        raise ValueError("User not found for the provided user_id.")
-
     app.register_blueprint(main_bp)
     app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(donor_bp, url_prefix='/donor')
 
     return app
+
+
+app = create_app()
+socketio = SocketIO(app)
+
+
+if __name__ == '__main__':
+    socketio.run(app.run(debug=True), allow_unsafe_werkzeug=True)
+
