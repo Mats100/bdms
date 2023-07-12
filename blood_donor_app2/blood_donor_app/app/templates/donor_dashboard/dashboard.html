@@ -36,6 +36,34 @@
                     </a>
                 {% endif %}
                 {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.blood_request') }}">
+                        <i class="dashboard-option-icon fas fa-info-circle"></i>
+                        <div class="dashboard-option-title">Request Blood</div>
+                        <div class="dashboard-option-description">Learn more about our organization.</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.contact_us') }}">
+                        <i class="dashboard-option-icon fas fa-info-circle"></i>
+                        <div class="dashboard-option-title">Contact Us</div>
+                        <div class="dashboard-option-description">Contact our organization.</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.donor_list') }}">
+                        <i class="dashboard-option-icon fas fa-info-circle"></i>
+                        <div class="dashboard-option-title">View Donors</div>
+                        <div class="dashboard-option-description">List of Registered Donors</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.get_campaign') }}">
+                        <i class="dashboard-option-icon fas fa-info-circle"></i>
+                        <div class="dashboard-option-title">View Camapigns</div>
+                        <div class="dashboard-option-description">List of Campaigns</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
                     <a class="dashboard-option" href="{{ url_for('donor.update_profile') }}">
                         <i class="dashboard-option-icon fas fa-user-edit"></i>
                         <div class="dashboard-option-title">Update Profile</div>

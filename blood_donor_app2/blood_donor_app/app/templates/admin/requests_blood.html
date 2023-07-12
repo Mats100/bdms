@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blood Request</title>
+</head>
+<body>
+<div class="container">
+    <h1>Request Details</h1>
+     {% for request in requests_blood %}
+    <p><strong>Name:</strong> {{ request.donor.name }}</p>
+      <p><strong>group:</strong> {{ request.group }}</p>
+{#       <p><strong>Status:</strong> {{ request.date }}</p>#}
+    {% endfor %}
+  </div>
+
+
+
+</body>
+</html>

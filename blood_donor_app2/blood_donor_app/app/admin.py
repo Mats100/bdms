@@ -4,7 +4,7 @@ from flask_login import login_required, logout_user, login_user
 from blood_donor_app2.blood_donor_app.app.forms import RegisterForm, ProfileUpdateForm, PasswordChangeForm, LoginForm
 from blood_donor_app2.blood_donor_app.app import db
 from blood_donor_app2.blood_donor_app.app.mail import send_email
-from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup
+from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup, BloodRequest
 from blood_donor_app2.blood_donor_app.app.models import Admin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -59,6 +59,13 @@ def register_admin():
         session.pop('_flashes', None)
 
     return render_template('admin/register.html', form=form)
+
+
+@bp.route('/request', methods=['GET', 'POST'])
+@login_required
+def blood_request():
+    requests_blood = BloodRequest.query.filter_by(status=False).all()
+    return render_template('admin/requests_blood.html', requests_blood=requests_blood)
 
 
 @bp.route('/login', methods=['GET', 'POST'])

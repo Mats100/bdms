@@ -1,7 +1,7 @@
 import re
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField, PasswordField, IntegerField, BooleanField, \
-    FloatField
+    FloatField, DateTimeField, DateTimeLocalField
 from wtforms.validators import DataRequired, Length, Email, NumberRange
 from wtforms import ValidationError
 from blood_donor_app2.blood_donor_app.app.models import Donor, Admin
@@ -144,5 +144,14 @@ class DonorProfileUpdateForm(FlaskForm):
     submit = SubmitField('Update')
 
 
-# class CreateCompaign(FlaskForm):
-#
+class CreateCampaign(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    location = StringField('Location ', validators=[DataRequired()])
+    date = DateTimeLocalField('Date', format='%Y-%m-%dT%H:%M')
+    submit = SubmitField('Submit')
+
+
+class RequestBlood(FlaskForm):
+    group = SelectField('Blood Type', choices=[('A+', 'A+'), ('A-', 'A-'), ('B+', 'B+'), ('B-', 'B-'),
+                                               ('O+', 'O+'),
+                                               ('O-', 'O-'), ('AB+', 'AB+'), ('AB-', 'AB-')])

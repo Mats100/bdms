@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_required
 from blood_donor_app2.blood_donor_app.app import db
 from blood_donor_app2.blood_donor_app.app.forms import DonorRegistrationForm, DonorSearchForm, DonorDeleteForm, \
-    DonorUpdateForm, BloodGroupForm
-from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup
+    DonorUpdateForm, BloodGroupForm, CreateCampaign
+from blood_donor_app2.blood_donor_app.app.models import Donor, BloodGroup, Campaign
 from blood_donor_app2.blood_donor_app.app.mail import send_email
 
 bp = Blueprint('main', __name__)
@@ -15,9 +15,24 @@ LOW_BLOOD_GROUP_THRESHOLD = 5
 def home():
     return redirect(url_for('donor.login'))
 
-# @bp.route('/campaign',methods=['GET', 'POST'])
-# @login_required
-# def campaign():
+
+@bp.route('/campaign', methods=['GET', 'POST'])
+@login_required
+def campaign():
+    form = CreateCampaign()
+    if form.validate_on_submit():
+        campaign = Campaign(name=form.name.data, location=form.location.data, date=form.date.data)
+        db.session.add(campaign)
+        db.session.commit()
+        flash('Campaign registered successfully!', 'success')
+        body = f"A Blood  Donation campaign named {campaign.name} is being organized at {campaign.location} on {campaign.date}.Save lives and Donate Blood"
+        donor_emails = Donor.query.with_entities(Donor.email).filter(Donor.email != None).all()
+        donor_emails = [email for email, in donor_emails]
+        send_email("Blood Donation Campaign", body, donor_emails)
+        campaigns = Campaign.query.all()
+        return render_template("admin/campaign_details.html", campaigns=campaigns)
+    return render_template('admin/campaign.html', form=form)
+
 
 @bp.route('/donor_register', methods=['GET', 'POST'])
 @login_required
@@ -63,9 +78,6 @@ def donor_profile(donor_id):
 def edit_donor():
     donors = Donor.query.all()
     form = DonorUpdateForm()
-    print(form.data)
-    print(form.errors)
-
     if form.validate_on_submit():
         selected_donor_id = request.form.get('donor')
 

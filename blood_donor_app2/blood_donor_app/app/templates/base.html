@@ -188,6 +188,26 @@
                 </div>
             </a>
         </div>
+        <div class="dashboard-item">
+            <a href="{{ url_for('main.campaign') }}" class="btn btn-light">
+                <div class="dashboard-item-icon">
+                    <i class="fas fa-hand-holding-medical"></i>
+                </div>
+                <div class="dashboard-item-details">
+                    <h3>Campaign</h3>
+                </div>
+            </a>
+        </div>
+        <div class="dashboard-item">
+            <a href="{{ url_for('admin.blood_request') }}" class="btn btn-light">
+                <div class="dashboard-item-icon">
+                 <i class="fas fa-hand-holding-medical"></i>
+                </div>
+                <div class="dashboard-item-details">
+                    <h3>Blood Request</h3>
+                </div>
+            </a>
+        </div>
     </div>
 </div>
     {% block content %}{% endblock %}

@@ -1,14 +1,34 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 import flask
 from flask import Blueprint, render_template, redirect, url_for, flash, session, request
 from flask_login import login_required, logout_user, login_user, current_user
 from blood_donor_app2.blood_donor_app.app.forms import DonorDataForm, LoginForm, PasswordChangeForm, \
-    DonorProfileUpdateForm, DonorSearchForm
+    DonorProfileUpdateForm, DonorSearchForm, RequestBlood
 from blood_donor_app2.blood_donor_app.app.database import db
 from blood_donor_app2.blood_donor_app.app.mail import send_email
-from blood_donor_app2.blood_donor_app.app.models import Donor
+from blood_donor_app2.blood_donor_app.app.models import Donor, Campaign, BloodRequest
 from werkzeug.security import check_password_hash, generate_password_hash
 
 bp = Blueprint('donor', __name__)
+
+
+def contact_email(subject, body, receiver):
+    message = MIMEMultipart()
+    message['From'] = "aarbiasim@gmail.com"
+    message['To'] = "railpower15@gmail.com"
+    message['Subject'] = subject
+    message.attach(MIMEText(body, 'plain'))
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login("aarbiasim@gmail.com", "bgcgzttawflbowqt")
+            server.sendmail("aarbiasim@gmail.com", receiver, message.as_string())
+            print('Email sent successfully.')
+    except smtplib.SMTPException as e:
+        print(f'Failed to send email. Error: {str(e)}')
 
 
 @bp.route('/dashboard')
@@ -61,6 +81,7 @@ def register():
     if flask.request.method == "POST":
         session.pop('_flashes', None)
     return render_template('donor_dashboard/register.html', form=form)
+
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -126,8 +147,28 @@ def about():
         "If the weight of the donor is between 45-50 kg, they can donate blood up to 350ml, and if it is greater than "
         "50kg, they can give 450ml at a time."
     ]
-
     return render_template('donor_dashboard/about.html', rules=rules)
+
+
+@bp.route('/contact', methods=['GET', 'POST'])
+@login_required
+def contact_us():
+    # contact_email()
+    return render_template('donor_dashboard/contact-us.html')
+
+
+@bp.route('/donor-list', methods=['GET'])
+@login_required
+def donor_list():
+    donors = Donor.query.all()
+    return render_template('donor_dashboard/donor-list.html', donors=donors)
+
+
+@bp.route('/campaign_details', methods=['GET'])
+@login_required
+def get_campaign():
+    campaigns = Campaign.query.all()
+    return render_template('donor_dashboard/campaign_details.html', campaigns=campaigns)
 
 
 @bp.route('/search', methods=['GET', 'POST'])
@@ -141,10 +182,7 @@ def search_donor():
             results = Donor.query.filter_by(blood_type=blood_type).all()
     return render_template('donor_dashboard/donor_search.html', form=search_form, results=results)
 
-# @bp.route('/contact-us', methods=['GET', 'POST'])
-# def contact_us():
-#
-#     return render_template('donor_dashboard/contact_us.html')
+
 @bp.route('/forget_password', methods=['GET', 'POST'])
 def forget_password():
     form = PasswordChangeForm()
@@ -166,10 +204,18 @@ def forget_password():
     return render_template('donor_dashboard/forget_password.html', form=form)
 
 
-# @bp.route('/donation_form', methods=['GET', 'POST'])
-# def donate_blood():
-#     form = BloodGroupForm()
-#
+@bp.route('/request', methods=['GET', 'POST'])
+@login_required
+def blood_request():
+    form = RequestBlood()
+    donor_id = session['donor_id']
+    donor = Donor.query.get(donor_id)
+    if form.validate_on_submit():
+        blood_req = BloodRequest(donor_id=donor.id, group=form.group.data)
+        db.session.add(blood_req)
+        db.session.commit()
+        return render_template('donor_dashboard/dashboard.html', form=form)
+    return render_template('donor_dashboard/request.html', form=form, donor=donor)
 
 
 @bp.route('/logout')

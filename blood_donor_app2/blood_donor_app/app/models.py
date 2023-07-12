@@ -1,9 +1,11 @@
+from datetime import datetime
+
 from flask_login import UserMixin
 
 from blood_donor_app2.blood_donor_app.app.database import db
 
 
-class Admin(db.Model,UserMixin):
+class Admin(db.Model, UserMixin):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,7 +18,7 @@ class Admin(db.Model,UserMixin):
     password = db.Column(db.String(100), nullable=False)
 
 
-class Donor(db.Model,UserMixin):
+class Donor(db.Model, UserMixin):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True)
@@ -29,7 +31,7 @@ class Donor(db.Model,UserMixin):
     gender = db.Column(db.String(10), nullable=True)
     age = db.Column(db.Integer, nullable=False)
     weight = db.Column(db.Integer, nullable=True)
-    date = db.Column(db.Integer, nullable=True)
+    date = db.Column(db.DateTime, nullable=True)
     occupation = db.Column(db.String, nullable=True)
     blood_type = db.Column(db.String(10), nullable=False)
     pulse_rate = db.Column(db.Integer, nullable=True)
@@ -43,9 +45,35 @@ class Donor(db.Model,UserMixin):
     bleeding_disorders = db.Column(db.Boolean, nullable=True)
     medication = db.Column(db.Boolean, nullable=True)
 
+    requests = db.relationship('BloodRequest', backref='donor')
+
+
+class BloodDonation(db.Model):
+    __table_args__ = {'extend_existing': True}
+    id = db.Column(db.Integer, primary_key=True)
+    donor_id = db.Column(db.Integer, db.ForeignKey('donor.id'))
+    donation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+
+class BloodRequest(db.Model):
+    __table_args__ = {'extend_existing': True}
+    id = db.Column(db.Integer, primary_key=True)
+    donor_id = db.Column(db.Integer, db.ForeignKey('donor.id'))
+    group = db.Column(db.String(10), nullable=False)
+    request_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    status = db.Column(db.Boolean, nullable=True, default=False)
+
 
 class BloodGroup(db.Model):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     group = db.Column(db.String(10), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=0)
+
+
+class Campaign(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), nullable=False)
+    location = db.Column(db.String(2000), nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+
