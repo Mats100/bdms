@@ -44,5 +44,5 @@ socketio = SocketIO(app)
 
 
 if __name__ == '__main__':
-    socketio.run(app.run(debug=True), allow_unsafe_werkzeug=True)
+    socketio.run(app.run(debug=True,host="0.0.0.0"), allow_unsafe_werkzeug=True)
 
