@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.min.css') }}">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+        <h1>Profile</h1>
+        <form method="post" action="{{ url_for('admin.profile') }}" onsubmit=" return updateProfile()">
+            {{ form.csrf_token }}
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                {{ form.name(class="form-control") }}
+            </div>
+             <div class="mb-3">
+                <label for="age" class="form-label">Age:</label>
+                {{ form.age(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <label for="contact_number" class="form-label">Contact Number:</label>
+                {{ form.contact_number(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address:</label>
+                {{ form.address(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Update" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+<script type="text/javascript" src="{{ url_for('static', filename='admin/assets/js/profile.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>
+</body>
+</html>

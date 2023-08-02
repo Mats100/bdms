@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.css') }}">
+  <title>Search for Blood Donors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    select, input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+ <button class="btn btn-success btn-sm"  onclick="window.history.back()">Back</button>
+  <div class="container">
+    <h1>Search for Blood Donors</h1>
+    <form method="POST">
+      {{ form.csrf_token }}
+      <label for="blood-type">Blood Type:</label>
+      {{ form.blood_type }}
+      <br>
+      {{ form.submit }}
+    </form>
+    {% if donors %}
+    <h2>Results</h2>
+    <ul>
+      {% for donor in donors %}
+      <li><a href="{{ url_for('main.donor_profile', donor_id=donor.id) }}">{{ donor.name }} ({{ donor.blood_type }})</a></li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</body>
+</html>

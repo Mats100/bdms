@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Blood Group</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="container">
+<div class="text-left mt-4">
+<button class="btn btn-success btn-sm" onclick="window.history.back()">Back</button>
+    <h1>Delete Blood Group</h1>
+    <p>Are you sure you want to delete the blood group: {{ blood_group.group }}?</p>
+    <form method="post" action="{{ url_for('main.delete_bloodgroup', blood_group_id=blood_group.id) }}">
+        {{ form.csrf_token }}
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html>

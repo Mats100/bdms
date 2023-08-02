@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="dashboard">
+    <h4 class="dashboard-info">Total Donors: {{ donor_count }}</h4>
+    <table class="dashboard-table">
+      <thead>
+        <tr>
+          <th>Blood Group</th>
+          <th>Percentage</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for blood_group in blood_group_percentages %}
+        <tr>
+          <td>{{ blood_group.group }}</td>
+          <td>{{ blood_group.percentage }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+

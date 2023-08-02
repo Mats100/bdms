@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.css') }}">
+    <title>Blood Request</title>
+</head>
+<body>
+<div class="container">
+<div class="text-left mt-4">
+<button class="btn btn-success btn-sm" onclick="window.history.back()">Back</button>
+</div>
+    <h1>Request Details</h1>
+     {% for request in requests_blood %}
+    <p><strong>Name:</strong> {{ request.donor.name }}</p>
+      <p><strong>group:</strong> {{ request.group }}</p>
+    {% endfor %}
+  </div>
+
+
+
+</body>
+</html>

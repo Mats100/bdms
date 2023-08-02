@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Donor List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.css') }}">
+</head>
+<body>
+<div class="container">
+<div class="text-left mt-4">
+    <button class="btn btn-success btn-sm" onclick="window.history.back()">Back</button>
+    <div class="container py-5">
+        <h1>Donor List</h1>
+        <ul class="list-group mt-4">
+            {% for donor in donors %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">{{ donor.name }}</h5>
+                        <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#details{{ loop.index }}" aria-expanded="false"
+                                aria-controls="details{{ loop.index }}">View Details
+                        </button>
+                    </div>
+                    <div class="collapse mt-3" id="details{{ loop.index }}">
+                        <ul class="list-unstyled">
+                            <li><strong>Email:</strong> {{ donor.email }}</li>
+                            <li><strong>Phone:</strong> {{ donor.contact_number }}</li>
+                        </ul>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
+</div>
+</body>
+</html>

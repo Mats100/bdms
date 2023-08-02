@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Donor Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='donor_dashboard/assets/css/login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.css') }}">
+</head>
+<body>
+    <h1>Donor Login</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="container">
+                {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('donor.login') }}" onsubmit="return validateForm()" class="mt-4">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Username">
+        </div>
+        <div class="mb-3">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password">
+        </div>
+        <div class="mb-3">
+            <input type="submit" value="Login">
+        </div>
+        <div class="mb-3 text-center">
+            <p>Forgot your password? <a href="/donor/forget_password">Reset password</a></p>
+            <p><a href="/donor/register">Register as Donor</a></p>
+        </div>
+    </form>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='donor_dashboard/assets/js/login.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
+</body>
+</html>

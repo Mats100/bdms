@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Campaign Details</title>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .campaign {
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <button class="btn btn-success btn-sm" onclick="window.history.back()">Back</button>
+    <h1 class="text-center">Campaigns</h1>
+    {% for campaign in campaigns %}
+        <div class="campaign mt-4">
+            <p><strong>Name:</strong> {{ campaign.name }}</p>
+            <p><strong>Location:</strong> {{ campaign.location }}</p>
+            <p><strong>Date:</strong> {{ campaign.date }}</p>
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>

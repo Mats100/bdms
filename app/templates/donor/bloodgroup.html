@@ -1,0 +1,97 @@
+{% set LOW_BLOOD_GROUP_THRESHOLD = 5%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Blood Group Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        button{
+            text-align: left;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .low-level {
+            color: red;
+            font-weight: bold;
+        }
+
+        .edit-link,
+        .delete-link {
+            margin-left: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <div class="text-left mt-4">
+<button class="btn btn-success btn-sm" onclick="window.history.back()">Back</button>
+</div>
+        <h1>Blood Group Management</h1>
+        <form method="post" action="{{ url_for('main.blood_group') }}">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                <label for="group">Blood Group:</label>
+                <select class="form-control" name="group" id="group">
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                {{ form.quantity }}
+            </div>
+            <div>
+                <input class="btn btn-primary" type="submit" value="Add Blood Group">
+            </div>
+        </form>
+
+        <h2>Existing Blood Groups:</h2>
+        <ul>
+            {% for blood_group in blood_groups %}
+            <li>{{ blood_group.group }} (Quantity: {{ blood_group.quantity }})
+                {% if blood_group.quantity <= LOW_BLOOD_GROUP_THRESHOLD %}
+                    <span class="low-level">Low Level</span>
+                {% endif %}
+                <a class="edit-link" href="{{ url_for('main.edit_blood_group', blood_group_id=blood_group.id) }}">Edit</a>
+                <a class="delete-link" href="{{ url_for('main.delete_blood_group', blood_group_id=blood_group.id) }}">Delete</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

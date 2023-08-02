@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Registration Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='plugins/bootstrap/css/bootstrap.css') }}">
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: beige;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        form div {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+         input[type="number"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+         input[type="tel"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+          input[type="email"],
+        input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 8px;
+            background-color: #326ba8;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3275a8;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <h1 class="text-center">Registration Form</h1>
+    <button style="margin-left: 300px" class="btn btn-success btn-sm"  onclick="window.history.back()">Back</button>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+    <form method="POST" action="{{ url_for('admin.register_admin') }}" onsubmit="return validateForm()">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <label for="name">Name:</label>
+            {% if form.name.data == None %}
+            <input type="text" id="name" name="name" placeholder="Name" required data-value="{{ form.name.data }}">
+            {% else %}
+            <input type="text" id="name" name="name" placeholder="Name" required data-value="{{ form.name.data }}">
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="age">Age:</label>
+             {% if form.age.data == None %}
+            <input type="number" id="age" name="age" placeholder="Age" required data-value="{{ form.age.data }}">
+            {% else %}
+            <input type="number" id="age" name="age" placeholder="Age" required data-value="{{ form.age.data }}">
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="contact_number">Contact Number:</label>
+             {% if form.contact_number.data == None %}
+            <input type="tel" id="contact_number" name="contact_number" placeholder="Contact Number" required data-value="{{ form.contact_number.data }}"><br><small>Format:+23051234567</small>
+            {% else %}
+            <input type="tel" id="contact_number" name="contact_number" placeholder="Contact Number" required data-value="{{ form.contact_number.data }}"><br><small>Format:+23051234567</small>
+            {% endif %}
+        </div>
+    <div class="form-group">
+            <label for="email">Email:</label>
+             {% if form.email.data == None %}
+            <input type="email" id="email" name="email" placeholder="Email" required data-value="{{ form.email.data }}">
+            {% else %}
+            <input type="email" id="email" name="email" placeholder="Email" required data-value="{{ form.email.data }}">
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="address">Address:</label>
+             {% if form.address.data == None %}
+            <input type="text" id="address" name="address" placeholder="Address" required data-value="{{ form.address.data }}">
+            {% else %}
+            <input type="text" id="address" name="address" placeholder="Address" required data-value="{{ form.address.data }}">
+            {% endif %}
+
+        </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+             {% if form.username.data == None %}
+            <input type="text" id="username" name="username" placeholder="Username" required data-value="{{ form.username.data }}">
+            {% else %}
+            <input type="text" id="username" name="username" placeholder="Username" required data-value="{{ form.username.data }}">
+            {% endif %}
+
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='admin/assets/js/register.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>
+</body>
+</html>

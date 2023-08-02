@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.css') }}">
+    <title>Campaign</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #88bca0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        input[type="datetime-local"],
+        input[type="datetime-local"] {
+            width: 90%;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            display: grid;
+            padding: 10px;
+            margin:auto;
+            width: 70%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Campaign</h1>
+<button style="margin-left: 300px" class="btn btn-success btn-sm"  onclick="window.history.back()">Back</button>
+<form method="POST" action="{{ url_for('main.campaign') }}" class="mt-4">
+    {{ form.csrf_token }}
+    <div class="mb-3">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Name">
+    </div>
+    <div class="mb-3">
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" placeholder="Location">
+    </div>
+    <div class="mb-3">
+        <label for="date">Date:</label>
+        <input type="datetime-local" id="date" name="date" placeholder="Date">
+    </div>
+    <div class="mb-3">
+        <input type="submit" value="Start campaign">
+    </div>
+</form>
+</body>
+</html>

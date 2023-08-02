@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Donor Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='donor_dashboard/assets/css/dashboard.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Donor Dashboard</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% if session.donor_id %}
+            <div class="dashboard-options">
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.search_donor') }}">
+                        <i class="dashboard-option-icon fas fa-search"></i>
+                        <div class="dashboard-option-title">Donor Search</div>
+                        <div class="dashboard-option-description">Find donors by blood type and location.</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.about') }}">
+                        <i class="dashboard-option-icon fas fa-info-circle"></i>
+                        <div class="dashboard-option-title">About Us</div>
+                        <div class="dashboard-option-description">Learn more about our organization.</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.blood_request') }}">
+                        <i class="dashboard-option-icon fas fa-info-circle"></i>
+                        <div class="dashboard-option-title">Request Blood</div>
+                        <div class="dashboard-option-description">Request blood from our organization.</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.contact_us') }}">
+                        <i class="dashboard-option-icon fas fa-info-circle"></i>
+                        <div class="dashboard-option-title">Contact Us</div>
+                        <div class="dashboard-option-description">Contact our organization.</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.donor_list') }}">
+                        <i class="dashboard-option-icon fas fa-info-circle"></i>
+                        <div class="dashboard-option-title">View Donors</div>
+                        <div class="dashboard-option-description">List of Registered Donors</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.get_campaign') }}">
+                        <i class="dashboard-option-icon fas fa-info-circle"></i>
+                        <div class="dashboard-option-title">View Camapigns</div>
+                        <div class="dashboard-option-description">List of Campaigns</div>
+                    </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.update_profile') }}">
+                        <i class="dashboard-option-icon fas fa-user-edit"></i>
+                        <div class="dashboard-option-title">Update Profile</div>
+                        <div class="dashboard-option-description">Update your personal information.</div>
+                    </a>
+                {% endif %}
+                 {% if current_user.is_authenticated %}
+                <a class="dashboard-option" href="{{ url_for('donor.forget_password') }}">
+                    <i class="dashboard-option-icon fas fa-key"></i>
+                    <div class="dashboard-option-title">Change Password</div>
+                    <div class="dashboard-option-description">Reset your account password.</div>
+                </a>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                    <a class="dashboard-option" href="{{ url_for('donor.logout') }}">
+                        <i class="dashboard-option-icon fas fa-sign-out-alt"></i>
+                        <div class="dashboard-option-title">Logout</div>
+                        <div class="dashboard-option-description">Sign out from your account.</div>
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

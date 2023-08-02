@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Donor List</h1>
+  <ul>
+    {% for donor in donors %}
+      <li><a href="{{ url_for('main.donor_profile', donor_id=donor.id) }}">{{ donor.name }} {{ donor.age }}({{ donor.blood_type }})</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+

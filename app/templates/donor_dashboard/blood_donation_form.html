@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Donate Blood</title>
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function toggleLastDonateDate() {
+            var bloodTypeField = document.getElementById("blood_type");
+            var lastDonateDateField = document.getElementById("last_donate_date");
+            var lastDonateDateMessage = document.getElementById("last_donate_date_message");
+
+            if (bloodTypeField.value === "yes") {
+                lastDonateDateField.style.display = "block";
+                lastDonateDateMessage.style.display = "none";
+            } else {
+                lastDonateDateField.style.display = "none";
+                lastDonateDateMessage.style.display = "none";
+            }
+        }
+
+        function validateLastDonateDate() {
+            var lastDonateDateField = document.getElementById("last_donate_date");
+            var lastDonateDateMessage = document.getElementById("last_donate_date_message");
+
+            var today = new Date();
+            var lastDonateDate = new Date(lastDonateDateField.value);
+
+            var threeMonthsAgo = new Date();
+            threeMonthsAgo.setMonth(today.getMonth() - 3);
+
+            if (lastDonateDate >= threeMonthsAgo) {
+                lastDonateDateMessage.style.display = "block";
+            } else {
+                lastDonateDateMessage.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1>Donate Blood</h1>
+    <form method="post" action="{{ url_for('donor.donate_blood') }}" onsubmit="return validateLastDonateDate()">
+        {{ form.csrf_token }}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            {{ form.name(class="form-control", required=True) }}
+        </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Age:</label>
+            {{ form.age(class="form-control", required=True) }}
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            {{ form.email(class="form-control", required=True) }}
+        </div>
+        <div class="mb-3">
+            <label for="contact_number" class="form-label">Contact Number:</label>
+            {{ form.contact_number(class="form-control", required=True) }}
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label">Address:</label>
+            {{ form.address(class="form-control", required=True) }}
+        </div>
+        <div class="mb-3">
+            <label for="occupation" class="form-label">Occupation:</label>
+            {{ form.occupation(class="form-control", required=True) }}
+        </div>
+        <div class="mb-3">
+            <label for="blood_type" class="form-label">Blood Type:</label>
+            {{ form.blood_type(class="form-control", required=True, onchange="toggleLastDonateDate()") }}
+        </div>
+        <div class="mb-3" id="last_donate_date" style="display: none;">
+            <label for="last_donate_date" class="form-label">Last Donate Date:</label>
+            {{ form.last_donate_date(class="form-control") }}
+            <small id="last_donate_date_message" style="display: none; color: red;">You are unable to donate blood since
+                it hasn't been three months since your last donation.</small>
+        </div>
+        <div class="mb-3">
+            <input type="submit" value="Donate" class="btn btn-primary">
+        </div>
+    </form>
+</div>
+</body>
+</html>

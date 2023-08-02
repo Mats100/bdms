@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/izitoast/css/iziToast.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.css') }}">
+    <title>Donor Registration</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(0,0,0,.2);
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            background-color: #88bca0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1>Donor Registration</h1>
+        {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+        <form class="col-md-11 mx-auto p-5" method="POST" action="{{ url_for('donor.register') }}" onsubmit="return validateForm()">
+            {{ form.csrf_token }}
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="name">Name:</label>
+                    {% if form.name.data == None %}
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" required data-value="{{ form.name.data }}">
+                    {% else %}
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" required value="{{ form.name.data }}">
+                    {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                    <label for="age">Age:</label>
+                    {% if form.age.data == None %}
+                    <input type="number" class="form-control" id="age" name="age" placeholder="Age" required value="{{ form.age.data }}">
+                    {% else %}
+                    <input type="number" class="form-control" id="age" name="age" placeholder="Age" required value="{{ form.age.data }}">
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="contact_number">Contact Number:</label>
+                    {% if form.contact_number.data == None %}
+                    <input type="tel" class="form-control" id="contact_number" name="contact_number" pattern="\+230\d{8}" placeholder="Contact Number" required data-value="{{ form.contact_number.data }}"><small>Format:+23051234567</small>
+                    {% else %}
+                    <input type="tel" class="form-control" id="contact_number" name="contact_number" pattern="\+230\d{8}" placeholder="Contact Number" required data-value="{{ form.contact_number.data }}"><small>Format:+23051234567</small>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                    <label for="email">Email Address:</label>
+                    {% if form.email.data == None %}
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required data-value="{{ form.email.data }}">
+                    {% else %}
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required data-value="{{ form.email.data }}">
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label for="gender">Gender:</label>
+                    <select class="form-control" id="gender" name="gender" required data-value="{{ form.gender.data }}">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="username">Username:</label>
+                    {% if form.username.data == None %}
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required data-value="{{ form.username.data }}">
+                    {% else %}
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required data-value="{{ form.username.data }}">
+                    {% endif %}
+                </div>
+
+                <div class="col-md-4">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col">
+                    <label for="address">Address:</label>
+                    <textarea class="form-control" id="address" name="address" placeholder="Address" required></textarea>
+                </div>
+            </div>
+
+            <h3>Health Details</h3>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label for="weight">Body Weight:</label>
+                    {% if form.weight.data == None %}
+                    <input type="number" class="form-control" id="weight" name="weight" placeholder="Weight" required value {{ form.weight.data }}>
+                    {% else %}
+                    <input type="number" class="form-control" id="weight" name="weight" placeholder="Weight" required value {{ form.weight.data }}>
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <label for="blood_type">Blood Group:</label>
+                    <select class="form-control" id="blood_type" name="blood_type" required data-value="{{ form.blood_type.data }}">
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="pulse_rate">Pulse Rate:</label>
+                    {% if form.pulse_rate.data == None %}
+                    <input type="number" class="form-control" id="pulse_rate" name="pulse_rate" placeholder="Pulse Rate" required value="{{ form.pulse_rate.data }}">
+                    {% else %}
+                    <input type="number" class="form-control" id="pulse_rate" name="pulse_rate" placeholder="Pulse Rate" required value="{{ form.pulse_rate.data }}">
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label for="haemoglobin">Haemoglobin:</label>
+                    {% if form.haemoglobin.data == None %}
+                    <input type="number"  class="form-control"  id="haemoglobin" name="haemoglobin" step="0.1" min="0" max="20" placeholder="Enter haemoglobin level" required value="{{ form.haemoglobin.data }}" />
+                    {% else %}
+                    <input type="number"  class="form-control"  id="haemoglobin" name="haemoglobin" step="0.1" min="0" max="20" placeholder="Enter haemoglobin level" required value="{{ form.haemoglobin.data }}" />
+                    {% endif %}
+                </div>
+
+                <div class="col-md-4">
+                    <label for="blood_pressure">Blood Pressure:</label>
+                    {% if form.blood_pressure.data == None %}
+                    <input type="number" class="form-control" id="blood_pressure" name="blood_pressure" placeholder="Blood Pressure" required value="{{ form.blood_pressure.data }}">
+                    {% else %}
+                    <input type="number" class="form-control" id="blood_pressure" name="blood_pressure" placeholder="Blood Pressure" required value="{{ form.blood_pressure.data }}">
+                    {% endif %}
+                </div>
+
+                <div class="col-md-4">
+                    <label for="temperature">Temperature:</label>
+                    {% if form.temperature.data == None %}
+                    <input type="number" class="form-control" id="temperature" name="temperature" placeholder="Temperature" required value="{{ form.temperature.data }}">
+                    {% else %}
+                    <input type="number" class="form-control" id="temperature" name="temperature" placeholder="Temperature" required value="{{ form.temperature.data }}">
+                    {% endif %}
+                </div>
+            </div>
+
+            <h3>Health Security Check</h3>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="disease">Do you suffer from any disease?</label>
+                    <select class="form-control" id="disease" name="disease" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="allergies">Do you have any allergies?</label>
+                    <select class="form-control" id="allergies" name="allergies" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="blood_test">Have you ever had a positive blood test for HbsAg, Hcv, HIV?</label>
+                    <select class="form-control" id="blood_test" name="blood_test" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="cardiac_problems">Do you have any cardiac problems?</label>
+                    <select class="form-control" id="cardiac_problems" name="cardiac_problems" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="bleeding_disorders">Do you suffer from any bleeding disorders?</label>
+                    <select class="form-control" id="bleeding_disorders" name="bleeding_disorders" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="medication">Do you take any medication?</label>
+                    <select class="form-control" id="medication" name="medication" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <input type="submit" class="btn btn-success" value="Register">
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/izitoast/js/iziToast.min.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='donor_dashboard/assets/js/register.js') }}"></script>
+</body>
+</html>
